@@ -10,11 +10,11 @@ class Transaction extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        "amount",
         "transaction_type_id",
         "sender_account_id",
         "receiver_account_id",
     ];
+
 
     public function transactionType()
     {
@@ -29,5 +29,10 @@ class Transaction extends Model
     public function receiverAccount()
     {
         return $this->belongsTo(Account::class, 'receiver_account_id');
+    }
+
+    public function transactionNodes()
+    {
+        return $this->hasMany(TransactionNode::class, 'transaction_id', 'id');
     }
 }
