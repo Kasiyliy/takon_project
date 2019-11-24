@@ -13,12 +13,12 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         \App\User::create(
-            [
-                'username' => 'admin@mail.kz',
-                'email' => 'admin@mail.kz',
-                'password' => Hash::make('112233'),
-                'role_id' => 1
-            ]
-        );
+        [
+            'username' => 'admin@mail.kz',
+            'email' => 'admin@mail.kz',
+            'password' => Hash::make('112233'),
+            'role_id' => 1
+        ]
+    );
     }
 }

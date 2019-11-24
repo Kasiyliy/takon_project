@@ -28,7 +28,7 @@ class RolesTableSeeder extends Seeder
         ]);
 
         \App\Role::create([
-            'name' => 'Продавец'
+            'name' => 'Кассир'
         ]);
     }
 }
