@@ -2,29 +2,42 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 
-class ApiBaseRequest extends FormRequest
+use App\Http\Core\interfaces\WithUser;
+use App\Http\Errors\ErrorCode;
+use App\Http\Utils\ResponseUtil;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+
+abstract class ApiBaseRequest extends FormRequest implements WithUser
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
+    public function getCurrentUser(){
+        return request()->user;
+    }
+
+    public abstract function injectedRules();
+
     public function rules()
     {
-        return [
-            //
-        ];
+        return $this->injectedRules();
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        $response = ResponseUtil::makeResponse(
+            400,
+            false,
+            [
+                'errorCode' => ErrorCode::INVALID_FIELD,
+                'errors' => $validator->errors()
+            ]
+        );
+        throw new HttpResponseException($response);
     }
 }
