@@ -4,7 +4,6 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Http\Request;
 
 class Handler extends ExceptionHandler
 {
@@ -47,7 +46,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($request->wantsJson() || Request::is('api/*')) {
+        if ($request->wantsJson() || \Illuminate\Support\Facades\Request::is('api/*')) {
             return $this->handleApiException($request, $exception);
         } else {
             $retval = parent::render($request, $exception);

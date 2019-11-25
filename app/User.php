@@ -37,4 +37,28 @@ class User extends Authenticatable
         'username_verified_at' => 'datetime',
     ];
 
+    public function isAdmin(){
+        return $this->role_id == Role::ROLE_ADMINISTRATOR_ID;
+    }
+
+    public function isPartner(){
+        return $this->role_id == Role::ROLE_PARTNER_ID;
+    }
+
+    public function isCompanyJM(){
+        return $this->role_id == Role::ROLE_COMPANY_OR_JUDICIAL_MEMBER_ID;
+    }
+
+    public function isMobileUser(){
+        return $this->role_id == Role::ROLE_MOBILE_USER_ID;
+    }
+
+    public function isCashier(){
+        return $this->role_id == Role::ROLE_CASHIER_ID;
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
+    }
 }

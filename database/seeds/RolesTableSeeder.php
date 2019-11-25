@@ -24,7 +24,7 @@ class RolesTableSeeder extends Seeder
         ]);
 
         \App\Role::create([
-            'name' => 'Клиент'
+            'name' => 'Мобильный пользователь'
         ]);
 
         \App\Role::create([

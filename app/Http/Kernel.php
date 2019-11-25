@@ -35,6 +35,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\LocalizationMiddleware::class,
         ],
 
         'api' => [
@@ -66,6 +67,14 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'token' => \App\Http\Middleware\TokenUserMiddleware::class,
+
+        //ROLES
+
+        'ROLE_ADMIN' => \App\Http\Middleware\roles\AdminMiddleware::class,
+        'ROLE_CASHIER' => \App\Http\Middleware\roles\CashierMiddleware::class,
+        'ROLE_COMPANY_JM' => \App\Http\Middleware\roles\CompanyJMMiddleware::class,
+        'ROLE_MOBILE_USER' => \App\Http\Middleware\roles\MobileUserMiddleware::class,
+        'ROLE_PARTNER' => \App\Http\Middleware\roles\PartnerMiddleware::class,
     ];
 
     /**
