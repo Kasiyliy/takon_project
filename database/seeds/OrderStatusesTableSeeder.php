@@ -11,12 +11,16 @@ class OrderStatusesTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\AccountCompanyOrderStatus::create([
+        \App\OrderStatus::create([
             'name' => 'В ожидании'
         ]);
 
-        \App\AccountCompanyOrderStatus::create([
+        \App\OrderStatus::create([
             'name' => 'Одобрено'
+        ]);
+
+        \App\OrderStatus::create([
+            'name' => 'Отклонено'
         ]);
     }
 }

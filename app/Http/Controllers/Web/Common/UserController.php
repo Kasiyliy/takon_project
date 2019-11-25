@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Web;
+namespace App\Http\Controllers\Web\Common;
 
 use App\Http\Controllers\WebBaseController;
 

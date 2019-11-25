@@ -19,8 +19,7 @@ class CreateCompanyOrdersTable extends Migration
             $table->timestamp('due_date')
                 ->nullable(false);
 
-            $table->integer('amount')
-                ->unsigned()
+            $table->double('amount')
                 ->nullable(false);
 
             $table->double('actual_service_price')

@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class AccountCompanyOrderStatus extends Model
 {
 
-    public static const STATUS_TRANSFERRED_ID = 1;
-    public static const STATUS_CANCELLED_ID = 2;
-    public static const STATUS_EXPIRED_ID = 3;
+    public const STATUS_TRANSFERRED_ID = 1;
+    public const STATUS_CANCELLED_ID = 2;
+    public const STATUS_EXPIRED_ID = 3;
 
     public $timestamps = false;
 

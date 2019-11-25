@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class OrderStatus extends Model
 {
-    public static const STATUS_WAITING_ID = 1;
-    public static const STATUS_APPROVED_ID = 2;
+    public const STATUS_WAITING_ID = 1;
+    public const STATUS_APPROVED_ID = 2;
 
     public $timestamps = false;
 

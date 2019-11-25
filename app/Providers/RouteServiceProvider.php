@@ -16,6 +16,13 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected $namespace = 'App\Http\Controllers';
 
+    protected const COMMON_PREFIX = '\Common';
+
+    protected const COMPANY_JM_PREFIX = '\Company_JM';
+    protected const PARTNER_PREFIX = '\Partner';
+    protected const CASHIER_PREFIX = '\Cashier';
+    protected const ADMIN_PREFIX = '\Admin';
+    protected const MOBILE_USER_PREFIX = '\MobileUser';
     /**
      * Define your route model bindings, pattern filters, etc.
      *
@@ -23,8 +30,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
         parent::boot();
     }
 
@@ -35,11 +40,16 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
+        //API
         $this->mapApiRoutes();
+        $this->mapApiCashierRoutes();
+        $this->mapApiMobileUserRoutes();
 
+        //WEB
         $this->mapWebRoutes();
-
-        //
+        $this->mapWebAdminRoutes();
+        $this->mapWebCashierRoutes();
+        $this->mapWebPartnerRoutes();
     }
 
     /**
@@ -52,8 +62,31 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes()
     {
         Route::middleware('web')
-             ->namespace($this->namespace)
+             ->namespace($this->namespace.RouteServiceProvider::COMMON_PREFIX)
              ->group(base_path('routes/web.php'));
+    }
+
+
+    protected function mapWebAdminRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace.RouteServiceProvider::ADMIN_PREFIX)
+            ->group(base_path('routes/web/web_admin.php'));
+    }
+
+
+    protected function mapWebCashierRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace.RouteServiceProvider::COMPANY_JM_PREFIX)
+            ->group(base_path('routes/web/web_company_jm.php'));
+    }
+
+    protected function mapWebPartnerRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace.RouteServiceProvider::PARTNER_PREFIX)
+            ->group(base_path('routes/web/web_partner.php'));
     }
 
     /**
@@ -67,7 +100,24 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('api')
              ->middleware('api')
-             ->namespace($this->namespace)
+             ->namespace($this->namespace.RouteServiceProvider::COMMON_PREFIX)
              ->group(base_path('routes/api.php'));
+    }
+
+
+    protected function mapApiCashierRoutes()
+    {
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->namespace.RouteServiceProvider::CASHIER_PREFIX)
+            ->group(base_path('routes/api/api_cashier.php'));
+    }
+
+    protected function mapApiMobileUserRoutes()
+    {
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->namespace.RouteServiceProvider::MOBILE_USER_PREFIX)
+            ->group(base_path('routes/api/api_mobile_user.php'));
     }
 }
