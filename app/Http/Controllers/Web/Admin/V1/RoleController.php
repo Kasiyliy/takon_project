@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Web\Admin\V1;
 
+use App\Exceptions\WebServiceException;
 use App\Http\Requests\Web\Admin\V1\RoleControllerRequests\UpdateRoleRequest;
 use App\Http\Controllers\WebBaseController;
 use App\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Validator;
 use Session;
 
@@ -73,7 +75,17 @@ class RoleController extends WebBaseController
             return redirect()->back();
         }
         $role->name = $request->name;
-        $role->save();
+
+        DB::beginTransaction();
+        try {
+            $role->save();
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            $this->error();
+            throw new WebServiceException(null, null);
+        }
+
         $this->edited();
         return redirect()->back();
     }
