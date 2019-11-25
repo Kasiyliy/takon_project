@@ -41,11 +41,6 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('/home', ['as' => 'home', 'uses' => 'HomeController@index']);
 
-        Route::get('/roles', ['as' => 'role.index', 'uses' => 'RoleController@index']);
-        Route::get('/roles/edit/{id}', ['as' => 'role.edit', 'uses' => 'RoleController@edit'])->where('id', '[0-9]+');
-        Route::post('/roles/update/{id}', ['as' => 'role.update', 'uses' => 'RoleController@update'])->where('id', '[0-9]+');
-
-
 
         Route::get('/user/edit', ['as' => 'self.user.edit', 'uses' => 'UserController@selfEdit']);
         Route::post('/user/update', ['as' => 'self.user.update', 'uses' => 'UserController@selfUpdate']);

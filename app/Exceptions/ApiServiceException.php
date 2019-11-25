@@ -5,7 +5,7 @@ namespace App\Exceptions;
 use App\Http\Utils\ResponseUtil;
 use Exception;
 
-class ServiceException extends Exception
+class ApiServiceException extends Exception
 {
     protected $code;
     protected $errors;

@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Api;
 
 
+use App\Exceptions\ApiServiceException;
 use App\Http\Core\interfaces\WithUser;
 use App\Http\Errors\ErrorCode;
 use App\Http\Utils\ResponseUtil;
@@ -17,7 +18,8 @@ abstract class ApiBaseRequest extends FormRequest implements WithUser
         return true;
     }
 
-    public function getCurrentUser(){
+    public function getCurrentUser()
+    {
         return request()->user;
     }
 
@@ -30,14 +32,9 @@ abstract class ApiBaseRequest extends FormRequest implements WithUser
 
     protected function failedValidation(Validator $validator)
     {
-        $response = ResponseUtil::makeResponse(
-            400,
-            false,
-            [
-                'errorCode' => ErrorCode::INVALID_FIELD,
-                'errors' => $validator->errors()
-            ]
-        );
-        throw new HttpResponseException($response);
+        throw new ApiServiceException(400, false, [
+            'errorCode' => ErrorCode::INVALID_FIELD,
+            'errors' => $validator->errors()
+        ]);
     }
 }

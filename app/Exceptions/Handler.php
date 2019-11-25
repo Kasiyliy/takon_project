@@ -49,17 +49,25 @@ class Handler extends ExceptionHandler
         if ($request->wantsJson() || \Illuminate\Support\Facades\Request::is('api/*')) {
             return $this->handleApiException($request, $exception);
         } else {
-            $retval = parent::render($request, $exception);
+            return $this->handleWebExeception($request,$exception);
         }
 
-        return $retval;
+
+    }
+
+    private function handleWebExeception($request, Exception $exception){
+
+        if($exception instanceof WebServiceException){
+            return redirect()->back()->withErrors($exception->getValidator())->withInput();
+        }
+        return parent::render($request, $exception);
     }
 
     private function handleApiException($request, Exception $exception)
     {
         $exception = $this->prepareException($exception);
 
-        if ($exception instanceof \App\Exceptions\ServiceException) {
+        if ($exception instanceof \App\Exceptions\ApiServiceException) {
             return $exception->getApiResponse();
         }
 
