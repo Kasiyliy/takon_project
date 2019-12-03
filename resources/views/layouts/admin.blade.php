@@ -128,10 +128,32 @@
                 @if(\Illuminate\Support\Facades\Auth::user()->isAdmin())
 
                     <li class="header">Takon</li>
-                    <li>
-                        <a href="{{route('user.index')}}">
+
+                    <li class="treeview" style="height: auto;">
+                        <a href="#">
                             <i class="fa fa-users"></i> <span>{{trans('admin.users')}}</span>
+                            <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
                         </a>
+                        <ul class="treeview-menu" style="">
+                            <li>
+                                <a href="{{route('user.index')}}"><i class="fa fa-circle-o"></i>Админы</a>
+                            </li>
+                            <li>
+                                <a href="{{route('user.index')}}"><i class="fa fa-circle-o"></i>Компании</a>
+                            </li>
+                            <li>
+                                <a href="{{route('user.index')}}"><i class="fa fa-circle-o"></i>Партнеры</a>
+                            </li>
+                            <li>
+                                <a href="{{route('user.index')}}"><i class="fa fa-circle-o"></i>Мобильные пользователи</a>
+                            </li>
+                            <li>
+                                <a href="{{route('user.index')}}"><i class="fa fa-circle-o"></i>Продавцы</a>
+                            </li>
+
+                        </ul>
                     </li>
 
 
