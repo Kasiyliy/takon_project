@@ -138,19 +138,20 @@
                         </a>
                         <ul class="treeview-menu" style="">
                             <li>
-                                <a href="{{route('user.index')}}"><i class="fa fa-circle-o"></i>Админы</a>
+                                <a href="{{route('user.admins')}}"><i class="fa fa-circle-o"></i>Админы</a>
                             </li>
                             <li>
-                                <a href="{{route('user.index')}}"><i class="fa fa-circle-o"></i>Компании</a>
+                                <a href="{{route('user.companies')}}"><i class="fa fa-circle-o"></i>Компании</a>
                             </li>
                             <li>
-                                <a href="{{route('user.index')}}"><i class="fa fa-circle-o"></i>Партнеры</a>
+                                <a href="{{route('user.partners')}}"><i class="fa fa-circle-o"></i>Партнеры</a>
                             </li>
                             <li>
-                                <a href="{{route('user.index')}}"><i class="fa fa-circle-o"></i>Мобильные пользователи</a>
+                                <a href="{{route('user.mobileUsers')}}"><i class="fa fa-circle-o"></i>Мобильные
+                                    пользователи</a>
                             </li>
                             <li>
-                                <a href="{{route('user.index')}}"><i class="fa fa-circle-o"></i>Продавцы</a>
+                                <a href="{{route('user.cashiers')}}"><i class="fa fa-circle-o"></i>Продавцы</a>
                             </li>
 
                         </ul>
@@ -232,7 +233,7 @@
     @endif
 
     @if(Session::has('error'))
-    toastr.info("{{Session::get('error')}}");
+    toastr.error("{{Session::get('error')}}");
     @endif
 
     @if(Session::has('warning'))

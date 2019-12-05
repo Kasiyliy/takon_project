@@ -12,12 +12,19 @@ class Cashier extends Model
         'longitude',
         'latitude',
         'account_id',
-        'user_id'
+        'user_id',
+        'partner_id'
     ];
 
     public function account()
     {
         return $this->belongsTo(Account::class, 'account_id');
+    }
+
+
+    public function partner()
+    {
+        return $this->belongsTo(Partner::class, 'partner_id');
     }
 
     public function user()

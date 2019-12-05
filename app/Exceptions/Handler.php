@@ -3,7 +3,9 @@
 namespace App\Exceptions;
 
 use Exception;
+use http\Env\Request;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Session;
 
 class Handler extends ExceptionHandler
 {
@@ -29,7 +31,7 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param  \Exception  $exception
+     * @param  \Exception $exception
      * @return void
      */
     public function report(Exception $exception)
@@ -40,8 +42,8 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Exception $exception
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $exception)
@@ -49,16 +51,21 @@ class Handler extends ExceptionHandler
         if ($request->wantsJson() || \Illuminate\Support\Facades\Request::is('api/*')) {
             return $this->handleApiException($request, $exception);
         } else {
-            return $this->handleWebExeception($request,$exception);
+            return $this->handleWebExeception($request, $exception);
         }
 
 
     }
 
-    private function handleWebExeception($request, Exception $exception){
+    private function handleWebExeception($request, Exception $exception)
+    {
 
-        if($exception instanceof WebServiceException){
+        if ($exception instanceof WebServiceException) {
             return redirect()->back()->withErrors($exception->getValidator())->withInput();
+        }
+
+        if ($exception instanceof WebServiceErroredException) {
+            return redirect()->back()->with('error', $exception->getExplanation());
         }
         return parent::render($request, $exception);
     }
