@@ -6,9 +6,9 @@
             <div class="col-sm-12">
                 <div class="panel" style="padding: 10px">
                     <div class="panel-header">
-                        <h2>{{ trans('admin.edit.user') }}</h2>
+                        <h2>Изменить пользователя</h2>
                         <a class="btn btn-primary btn-sm"
-                           href="{{route('user.cashiers')}}">{{ trans('admin.back') }}</a>
+                           href="{{route('user.cashiers')}}">Назад</a>
                     </div>
                     <div class="panel-body">
                         <div class="row">
@@ -18,7 +18,7 @@
                                     <div class="form-group">
                                         <label for="password">Пароль</label>
                                         <input type="password" name="password" class="form-control"
-                                               placeholder="{{ trans('admin.password') }}" required>
+                                               placeholder="Пароль" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Подтвердите пароль</label>
@@ -28,7 +28,7 @@
                                     {{csrf_field()}}
                                     <div class="form-group">
                                         <input type="submit" class="btn btn-primary btn-block"
-                                               value="{{ trans('admin.edit') }}">
+                                               value="Изменить">
                                     </div>
                                 </form>
                             </div>
