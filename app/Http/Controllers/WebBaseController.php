@@ -6,38 +6,39 @@ use App\Http\Core\interfaces\WithUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Session;
+
 class WebBaseController extends Controller implements WithUser
 {
     public function warning()
     {
-        Session::flash('warning', trans('admin.problems'));
+        Session::flash('warning', 'Ошибка!');
 
     }
 
     public function added()
     {
-        Session::flash('warning', trans('admin.added'));
+        Session::flash('warning', 'Добавлено!');
     }
 
     public function deleted()
     {
-        Session::flash('warning', trans('admin.deleted'));
+        Session::flash('warning', 'Удалено!');
     }
 
     public function edited()
     {
-        Session::flash('warning', trans('admin.edited'));
+        Session::flash('warning', 'Обновлено!');
     }
 
     public function notFound()
     {
-        Session::flash('warning', trans('admin.not.found'));
+        Session::flash('warning', 'Не найдено!');
     }
 
 
     public function error()
     {
-        Session::flash('error', trans('admin.error'));
+        Session::flash('error', 'Ошибка!');
     }
 
     public function getCurrentUser()
@@ -47,7 +48,7 @@ class WebBaseController extends Controller implements WithUser
 
     public function getCurrentUserId()
     {
-        return  Auth::id();
+        return Auth::id();
     }
 
 }
