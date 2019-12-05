@@ -8,7 +8,7 @@
                     <div class="panel-header">
                         <h2>Мобильные пользователи</h2>
                         <a class="btn btn-success btn-sm"
-                           href="{{route('company.mobileUsers.create')}}">{{ trans('admin.add') }}</a>
+                           href="{{route('company.mobileUsers.create')}}">Добавить</a>
                     </div>
                     <div class="panel-body">
                         <table class="table table-hover table-responsive" id="dataTable">
