@@ -12,7 +12,6 @@ use Validator;
 class UserController extends WebBaseController
 {
 
-    //COMMON
     public function updatePassword(UpdatePasswordRequest $request, $id)
     {
         $user = User::find($id);

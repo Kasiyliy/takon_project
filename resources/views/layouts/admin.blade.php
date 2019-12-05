@@ -50,26 +50,7 @@
 
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
-                    <li class="dropdown notifications-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-                            {{trans('config.language')}}
-                        </a>
-                        <ul class="dropdown-menu text-center">
-                            <li>
-                                <ul class="menu">
-                                    <li>
-                                        <a class="dropdown-item btn-link"
-                                           href="{{route('locale',['locale' => 'ru'])}}">ru</a>
-                                    </li>
-                                    <li>
 
-                                        <a class="dropdown-item btn-link"
-                                           href="{{route('locale',['locale' => 'en'])}}">en</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-user-circle" style="color:white"></i>
@@ -84,15 +65,15 @@
                             </li>
                             <li class="user-footer">
                                 {{--<div class="pull-left">--}}
-                                    {{--<a href="{{route('self.user.edit')}}"--}}
-                                       {{--class="btn btn-default btn-flat">{{trans('admin.profile')}}</a>--}}
+                                {{--<a href="{{route('self.user.edit')}}"--}}
+                                {{--class="btn btn-default btn-flat">{{trans('admin.profile')}}</a>--}}
                                 {{--</div>--}}
 
                                 <div class="pull-right">
                                     <a class="btn btn-default btn-flat" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{trans('admin.logout')}}
+                                        Выход
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST"
@@ -119,10 +100,10 @@
                 </div>
             </div>
             <ul class="sidebar-menu" data-widget="tree">
-                <li class="header">{{trans('admin.home')}}</li>
+                <li class="header">Главная</li>
                 <li>
                     <a href="{{route('home')}}">
-                        <i class="fa fa-home"></i> <span>{{trans('admin.home')}}</span>
+                        <i class="fa fa-home"></i> <span>Главная</span>
                     </a>
                 </li>
                 @if(\Illuminate\Support\Facades\Auth::user()->isAdmin())
@@ -131,7 +112,7 @@
 
                     <li class="treeview" style="height: auto;">
                         <a href="#">
-                            <i class="fa fa-users"></i> <span>{{trans('admin.users')}}</span>
+                            <i class="fa fa-users"></i> <span>Пользователи</span>
                             <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
@@ -159,11 +140,11 @@
 
 
 
-                    <li class="header">{{trans('admin.settings')}}</li>
+                    <li class="header">Настройки</li>
 
                     <li>
                         <a href="{{route('role.index')}}">
-                            <i class="fa fa-gears"></i> <span>{{trans('admin.roles')}}</span>
+                            <i class="fa fa-gears"></i> <span>Роли</span>
                         </a>
                     </li>
 
