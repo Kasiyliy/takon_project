@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Web\Admin\V1;
 
 use App\Exceptions\WebServiceException;
-use App\Http\Requests\Web\Admin\V1\RoleControllerRequests\UpdateRoleRequest;
 use App\Http\Controllers\WebBaseController;
+use App\Http\Requests\Web\Admin\V1\RoleControllerRequests\UpdateRoleRequest;
 use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Validator;
 use Session;
+use Validator;
 
 class RoleController extends WebBaseController
 {
@@ -42,7 +42,6 @@ class RoleController extends WebBaseController
         }
     }
 
-
     public function delete($id)
     {
         $role = Role::find($id);
@@ -54,7 +53,6 @@ class RoleController extends WebBaseController
         }
         return redirect()->back();
     }
-
 
     public function edit($id)
     {

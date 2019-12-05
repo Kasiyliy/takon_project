@@ -7,7 +7,6 @@ use App\Cashier;
 use App\Company;
 use App\CompanyUser;
 use App\Exceptions\WebServiceErroredException;
-use App\Exceptions\WebServiceException;
 use App\Http\Controllers\WebBaseController;
 use App\Http\Requests\Web\Admin\V1\UserControllerRequests\AdminStoreRequest;
 use App\Http\Requests\Web\Admin\V1\UserControllerRequests\CashierStoreRequest;
