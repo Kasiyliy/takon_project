@@ -8,17 +8,16 @@
                     <div class="panel-header">
                         <h2>Мобильные пользователи</h2>
                         <a class="btn btn-success btn-sm"
-                           href="{{route('user.mobileUsers.create')}}">{{ trans('admin.add') }}</a>
+                           href="{{route('company.mobileUsers.create')}}">{{ trans('admin.add') }}</a>
                     </div>
                     <div class="panel-body">
                         <table class="table table-hover table-responsive" id="dataTable">
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>z</th>
+                                <th>{{ trans('admin.first_name') }}</th>
                                 <th>{{ trans('admin.last_name') }}</th>
                                 <th>{{ trans('admin.phone') }}</th>
-                                <th>{{ trans('admin.roles') }}</th>
                                 <th>{{ trans('admin.actions') }}</th>
                             </tr>
                             </thead>
@@ -26,10 +25,9 @@
                             @foreach($users as $user)
                                 <tr>
                                     <td>{{$user->id}}</td>
-                                    <td>{{$user->mobileUser->first_name}}</td>
-                                    <td>{{$user->mobileUser->last_name}}</td>
+                                    <td>{{$user->first_name}}</td>
+                                    <td>{{$user->last_name}}</td>
                                     <td>{{$user->phone_number}}</td>
-                                    <td>{{$user->role->name}}</td>
                                     <td class="d-flex">
 
                                         <button type="button" class="btn btn-danger btn-xs mr-1" data-toggle="modal"
@@ -70,7 +68,7 @@
                                         </div>
 
 
-                                        <a href="{{route('user.mobileUsers.edit' ,['id'=>$user->id ])}}"
+                                        <a href="{{route('company.mobileUsers.edit' ,['id'=>$user->id ])}}"
                                            class="btn-xs btn btn-primary">{{ trans('admin.edit') }}</a>
                                     </td>
                                 </tr>

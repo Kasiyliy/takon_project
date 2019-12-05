@@ -45,5 +45,9 @@ class WebBaseController extends Controller implements WithUser
         return Auth::user();
     }
 
+    public function getCurrentUserId()
+    {
+        return  Auth::id();
+    }
 
 }

@@ -8,7 +8,7 @@
                     <div class="panel-header">
                         <h2>{{ trans('admin.edit.user') }}</h2>
                         <a class="btn btn-primary btn-sm"
-                           href="{{route('user.mobileUsers')}}">{{ trans('admin.back') }}</a>
+                           href="{{route('company.mobileUsers')}}">{{ trans('admin.back') }}</a>
                     </div>
                     <div class="panel-body">
                         <div class="row">

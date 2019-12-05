@@ -15,14 +15,14 @@
                                 <form action="{{route('user.updatePassword' ,['id'=>$user->id])}}"
                                       method="post">
                                     <div class="form-group">
-                                        <label for="name">{{ trans('admin.password') }}</label>
+                                        <label for="password">Пароль</label>
                                         <input type="password" name="password" class="form-control"
                                                placeholder="{{ trans('admin.password') }}" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="name">{{ trans('admin.confirm.password') }}</label>
-                                        <input type="password" name="repassword" class="form-control"
-                                               placeholder="{{ trans('admin.confirm.password') }}" required>
+                                        <label>Подтвердите пароль</label>
+                                        <input type="password" name="password_confirmation" class="form-control"
+                                               placeholder="Подтвердите пароль" required>
                                     </div>
                                     {{csrf_field()}}
                                     <div class="form-group">

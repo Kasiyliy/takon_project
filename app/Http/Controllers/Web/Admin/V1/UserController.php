@@ -295,32 +295,4 @@ class UserController extends WebBaseController
         }
     }
 
-    //COMMON
-    public function updatePassword(Request $request, $id)
-    {
-        $user = User::find($id);
-        if (!$user) {
-            Session::flash('error', 'Пользователь не существует!');
-            return redirect()->back();
-        }
-
-        $validator = Validator::make($request->all(), [
-            'password' => 'required',
-            'repassword' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            Session::flash('error', 'Ошибка!');
-            return redirect()->back()->withErrors($validator);
-        } else if ($request->password != $request->repassword) {
-            Session::flash('warning', 'Пароли не совпадают!');
-            return redirect()->back();
-        } else {
-            $user->fill($request->all());
-            $user->password = bcrypt($user->password);
-            $user->save();
-            Session::flash('success', 'Пользователь успешно обновлен!');
-            return redirect()->back();
-        }
-    }
 }

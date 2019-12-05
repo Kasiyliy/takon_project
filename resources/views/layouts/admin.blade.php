@@ -83,10 +83,10 @@
                                 </p>
                             </li>
                             <li class="user-footer">
-                                <div class="pull-left">
-                                    <a href="{{route('self.user.edit')}}"
-                                       class="btn btn-default btn-flat">{{trans('admin.profile')}}</a>
-                                </div>
+                                {{--<div class="pull-left">--}}
+                                    {{--<a href="{{route('self.user.edit')}}"--}}
+                                       {{--class="btn btn-default btn-flat">{{trans('admin.profile')}}</a>--}}
+                                {{--</div>--}}
 
                                 <div class="pull-right">
                                     <a class="btn btn-default btn-flat" href="{{ route('logout') }}"
@@ -127,7 +127,7 @@
                 </li>
                 @if(\Illuminate\Support\Facades\Auth::user()->isAdmin())
 
-                    <li class="header">Takon</li>
+                    <li class="header">Администраторская панель</li>
 
                     <li class="treeview" style="height: auto;">
                         <a href="#">
@@ -167,6 +167,12 @@
                         </a>
                     </li>
 
+                @elseif(\Illuminate\Support\Facades\Auth::user()->isCompanyJM())
+                    <li class="header">Компания/Юридическое лицо</li>
+                    <li>
+                        <a href="{{route('company.mobileUsers')}}"><i class="fa fa-phone"></i>Мобильные
+                            пользователи</a>
+                    </li>
                 @endif
             </ul>
         </section>

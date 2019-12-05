@@ -12,4 +12,6 @@ namespace App\Http\Core\interfaces;
 interface WithUser
 {
     public function getCurrentUser();
+
+    public function getCurrentUserId();
 }

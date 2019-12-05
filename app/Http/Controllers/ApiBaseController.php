@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Core\interfaces\WithUser;
 use App\Http\Utils\ResponseUtil;
+use Illuminate\Support\Facades\Auth;
 
 class ApiBaseController extends Controller implements WithUser
 {
@@ -26,4 +27,11 @@ class ApiBaseController extends Controller implements WithUser
     {
         return request()->user;
     }
+
+    public function getCurrentUserId()
+    {
+        return  Auth::id();
+    }
+
+
 }

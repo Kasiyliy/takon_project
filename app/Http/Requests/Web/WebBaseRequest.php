@@ -3,11 +3,13 @@
 namespace App\Http\Requests\Web;
 
 use App\Exceptions\WebServiceException;
+use App\Http\Core\interfaces\WithUser;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Validation\Validator;
 use Session;
-abstract class WebBaseRequest extends FormRequest
+
+abstract class WebBaseRequest extends FormRequest implements WithUser
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,7 +21,8 @@ abstract class WebBaseRequest extends FormRequest
         return true;
     }
 
-    public function getCurrentUser(){
+    public function getCurrentUser()
+    {
         return Auth::user();
     }
 
@@ -35,4 +38,11 @@ abstract class WebBaseRequest extends FormRequest
         Session::flash('error', trans('admin.error'));
         throw new WebServiceException($validator, request()->all());
     }
+
+    public function getCurrentUserId()
+    {
+        return Auth::id();
+    }
+
+
 }
