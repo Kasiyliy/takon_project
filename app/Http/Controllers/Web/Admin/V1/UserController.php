@@ -54,7 +54,7 @@ class UserController extends WebBaseController
         $user = new User();
         $user->username = $request->username;
         $user->email = $user->username;
-        $user->password = bcrypt($user->password);
+        $user->password = bcrypt($request->password);
         $user->role_id = Role::ROLE_ADMINISTRATOR_ID;
         $user->save();
         $this->added();
@@ -95,7 +95,7 @@ class UserController extends WebBaseController
             $user = new User();
             $user->username = $request->username;
             $user->phone_number = $user->username;
-            $user->password = bcrypt($user->password);
+            $user->password = bcrypt($request->password);
             $user->role_id = Role::ROLE_CASHIER_ID;
             $user->save();
 
@@ -152,7 +152,7 @@ class UserController extends WebBaseController
             $user = new User();
             $user->username = $request->username;
             $user->email = $user->username;
-            $user->password = bcrypt($user->password);
+            $user->password = bcrypt($request->password);
             $user->role_id = Role::ROLE_PARTNER_ID;
             $user->save();
 
@@ -209,7 +209,7 @@ class UserController extends WebBaseController
             $user = new User();
             $user->username = $request->username;
             $user->phone_number = $user->username;
-            $user->password = bcrypt($user->password);
+            $user->password = bcrypt($request->password);
             $user->role_id = Role::ROLE_MOBILE_USER_ID;
             $user->save();
 
@@ -272,7 +272,7 @@ class UserController extends WebBaseController
             $user = new User();
             $user->username = $request->username;
             $user->email = $user->username;
-            $user->password = bcrypt($user->password);
+            $user->password = bcrypt($request->password);
             $user->role_id = Role::ROLE_COMPANY_OR_JUDICIAL_MEMBER_ID;
             $user->save();
 
