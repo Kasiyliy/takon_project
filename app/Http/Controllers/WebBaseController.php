@@ -19,6 +19,11 @@ class WebBaseController extends Controller implements WithUser
         Session::flash('warning', trans('admin.added'));
     }
 
+	public function inModeration()
+	{
+		Session::flash('warning', "Отправлено на мoдерацию администратору сайта");
+	}
+
     public function deleted()
     {
         Session::flash('warning', trans('admin.deleted'));
