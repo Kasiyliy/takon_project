@@ -156,6 +156,14 @@
                             <span>Мобильные пользователи</span>
                         </a>
                     </li>
+                @elseif(\Illuminate\Support\Facades\Auth::user()->isPartner())
+                    <li class="header">Партнер</li>
+                    <li>
+                        <a href="{{route('partner.services')}}">
+                            <i class="fa fa-server"></i>
+                            <span>Сервисы</span>
+                        </a>
+                    </li>
                 @endif
             </ul>
         </section>

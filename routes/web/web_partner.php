@@ -7,7 +7,10 @@
  */
 
 
+Route::group(['namespace' => 'V1', 'prefix' => 'partner'], function () {
 
-Route::get('/partner/services', ['as' => 'partner.services', 'uses' => 'ServiceController@index']);
-Route::get('/partner/services/create', ['as' => 'partner.services.create', 'uses' => 'ServiceController@create']);
-Route::post('/partner/services/store', ['as' => 'partner.services.store', 'uses' => 'ServiceController@store']);
+    Route::get('/services', ['as' => 'partner.services', 'uses' => 'ServiceController@index']);
+    Route::get('/services/create', ['as' => 'partner.services.create', 'uses' => 'ServiceController@create']);
+    Route::post('/services/store', ['as' => 'partner.services.store', 'uses' => 'ServiceController@store']);
+
+});
