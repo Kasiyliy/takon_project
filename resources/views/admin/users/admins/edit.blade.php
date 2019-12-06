@@ -6,8 +6,8 @@
             <div class="col-sm-12">
                 <div class="panel" style="padding: 10px">
                     <div class="panel-header">
-                        <h2>{{ trans('admin.edit.user') }}</h2>
-                        <a class="btn btn-primary btn-sm" href="{{route('user.admins')}}">{{ trans('admin.back') }}</a>
+                        <h2>Изменить пользователя</h2>
+                        <a class="btn btn-primary btn-sm" href="{{route('user.admins')}}">Назад</a>
                     </div>
                     <div class="panel-body">
                         <div class="row">
@@ -15,19 +15,19 @@
                                 <form action="{{route('user.updatePassword' ,['id'=>$user->id])}}"
                                       method="post">
                                     <div class="form-group">
-                                        <label for="name">{{ trans('admin.password') }}</label>
+                                        <label for="password">Пароль</label>
                                         <input type="password" name="password" class="form-control"
-                                               placeholder="{{ trans('admin.password') }}" required>
+                                               placeholder="Пароль" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="name">{{ trans('admin.confirm.password') }}</label>
-                                        <input type="password" name="repassword" class="form-control"
-                                               placeholder="{{ trans('admin.confirm.password') }}" required>
+                                        <label>Подтвердите пароль</label>
+                                        <input type="password" name="password_confirmation" class="form-control"
+                                               placeholder="Подтвердите пароль" required>
                                     </div>
                                     {{csrf_field()}}
                                     <div class="form-group">
                                         <input type="submit" class="btn btn-primary btn-block"
-                                               value="{{ trans('admin.edit') }}">
+                                               value="Изменить">
                                     </div>
                                 </form>
                             </div>

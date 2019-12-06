@@ -6,15 +6,20 @@
             <div class="col-sm-12">
                 <div class="panel" style="padding: 10px">
                     <div class="panel-header">
-                        <h2>Добавить кассира</h2>
-                        <a class="btn btn-primary btn-sm" href="{{route('user.cashiers')}}">Назад</a>
+                        <h2>Добавить мобильного пользователя</h2>
+                        <a class="btn btn-primary btn-sm" href="{{route('company.mobileUsers')}}">Назад</a>
                     </div>
                     <div class="panel-body">
-                        <form action="{{route('user.cashiers.store')}}" method="post">
+                        <form action="{{route('company.mobileUsers.store')}}" method="post">
                             <div class="form-group">
-                                <label for="name">Наименование</label>
-                                <input type="text" value="{{old('name')}}" name="name" class="form-control"
-                                       placeholder="Наименование" required>
+                                <label for="name">Имя</label>
+                                <input type="text" value="{{old('first_name')}}" name="first_name" class="form-control"
+                                       placeholder="Имя" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Фамилия</label>
+                                <input type="text" value="{{old('last_name')}}" name="last_name" class="form-control"
+                                       placeholder="Фамилия" required>
                             </div>
                             <div class="form-group">
                                 <label>Номер телефона</label>
@@ -31,14 +36,6 @@
                                 <label>Подтвердите пароль</label>
                                 <input type="password" name="password_confirmation" class="form-control"
                                        placeholder="Подтвердите пароль" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Партнёры</label>
-                                <select name="partner_id" class="form-control">
-                                    @foreach($partners as $partner)
-                                        <option value="{{$partner->partner->id}}">{{$partner->partner->name}}</option>
-                                    @endforeach
-                                </select>
                             </div>
                             {{csrf_field()}}
                             <div class="form-group">

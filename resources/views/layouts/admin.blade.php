@@ -167,30 +167,7 @@
                         </a>
                     </li>
 
-                @elseif(\Illuminate\Support\Facades\Auth::user()->isPartner())
-
-                    <li class="header">Takon</li>
-
-                    <li class="treeview" style="height: auto;">
-                        <a href="#">
-                            <i class="fa fa-users"></i> <span>{{trans('admin.users')}}</span>
-                            <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                        </a>
-                        <ul class="treeview-menu" style="">
-                            <li>
-                                <a href="{{route('partner.services')}}"><i class="fa fa-circle-o"></i>Товары/услуги</a>
-                            </li>
-
-                        </ul>
-                    </li>
-
-
-
                 @endif
-
-
             </ul>
         </section>
     </aside>

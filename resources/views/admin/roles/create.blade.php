@@ -7,13 +7,15 @@
                 <div class="panel">
                     <div class="panel-header">
                         <h2>{{ trans('admin.add.role') }}</h2>
-                        <a  class="btn btn-primary btn-sm" href="{{route('role.index')}}">{{ trans('admin.back') }}</a>
+                        <a class="btn btn-primary btn-sm"
+                           href="{{route('admin.role.index')}}">{{ trans('admin.back') }}</a>
                     </div>
                     <div class="panel-body">
-                        <form action="{{route('role.store')}}" method="post">
+                        <form action="{{route('admin.role.store')}}" method="post">
                             <div class="form-group">
                                 <label for="name">{{ trans('admin.name') }}</label>
-                                <input type="text" name="name" class="form-control" placeholder="{{ trans('admin.name') }}" required>
+                                <input type="text" name="name" class="form-control"
+                                       placeholder="{{ trans('admin.name') }}" required>
                             </div>
                             {{csrf_field()}}
                             <div class="form-group">

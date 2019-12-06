@@ -6,19 +6,18 @@
             <div class="col-sm-12">
                 <div class="panel" style="padding: 10px;">
                     <div class="panel-header">
-                        <h2>Компании/Юридические лица</h2>
+                        <h2>Мобильные пользователи</h2>
                         <a class="btn btn-success btn-sm"
-                           href="{{route('user.companies.create')}}">Добавить</a>
+                           href="{{route('company.mobileUsers.create')}}">Добавить</a>
                     </div>
                     <div class="panel-body">
                         <table class="table table-hover table-responsive" id="dataTable">
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Наименование</th>
-                                <th>Номер телефона</th>
-                                <th>Email</th>
-                                <th>Роль</th>
+                                <th>Имя</th>
+                                <th>Фамилия</th>
+                                <th>Мобильный телефон</th>
                                 <th>Действия</th>
                             </tr>
                             </thead>
@@ -26,10 +25,9 @@
                             @foreach($users as $user)
                                 <tr>
                                     <td>{{$user->id}}</td>
-                                    <td>{{$user->company->name}}</td>
-                                    <td>{{$user->company->phone_number}}</td>
-                                    <td>{{$user->email}}</td>
-                                    <td>{{$user->role->name}}</td>
+                                    <td>{{$user->first_name}}</td>
+                                    <td>{{$user->last_name}}</td>
+                                    <td>{{$user->phone_number}}</td>
                                     <td class="d-flex">
 
                                         <button type="button" class="btn btn-danger btn-xs mr-1" data-toggle="modal"
@@ -69,7 +67,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <a href="{{route('user.companies.edit' ,['id'=>$user->id ])}}"
+
+
+                                        <a href="{{route('company.mobileUsers.edit' ,['id'=>$user->id ])}}"
                                            class="btn-xs btn btn-primary">Изменить</a>
                                     </td>
                                 </tr>

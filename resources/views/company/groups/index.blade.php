@@ -6,9 +6,9 @@
             <div class="col-sm-12">
                 <div class="panel" style="padding: 10px;">
                     <div class="panel-header">
-                        <h2>Компании/Юридические лица</h2>
+                        <h2>Группы</h2>
                         <a class="btn btn-success btn-sm"
-                           href="{{route('user.companies.create')}}">Добавить</a>
+                           href="{{route('company.groups.create')}}">Добавить</a>
                     </div>
                     <div class="panel-body">
                         <table class="table table-hover table-responsive" id="dataTable">
@@ -16,34 +16,28 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Наименование</th>
-                                <th>Номер телефона</th>
-                                <th>Email</th>
-                                <th>Роль</th>
                                 <th>Действия</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($users as $user)
+                            @foreach($groups as $group)
                                 <tr>
-                                    <td>{{$user->id}}</td>
-                                    <td>{{$user->company->name}}</td>
-                                    <td>{{$user->company->phone_number}}</td>
-                                    <td>{{$user->email}}</td>
-                                    <td>{{$user->role->name}}</td>
+                                    <td>{{$group->id}}</td>
+                                    <td>{{$group->name}}</td>
                                     <td class="d-flex">
 
                                         <button type="button" class="btn btn-danger btn-xs mr-1" data-toggle="modal"
-                                                data-target="#exampleModal{{$user->id}}">
+                                                data-target="#exampleModal{{$group->id}}">
                                             Удалить
                                         </button>
 
                                         <!-- Modal -->
-                                        <div class="modal fade" id="exampleModal{{$user->id}}" tabindex="-1"
+                                        <div class="modal fade" id="exampleModal{{$group->id}}" tabindex="-1"
                                              role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <form method="post"
-                                                          action="{{route('user.delete', ['id' => $user->id ])}}">
+                                                          action="{{route('company.groups.delete', ['id' => $group->id ])}}">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title"
                                                                 id="exampleModalLabel">Предупреждение</h5>
@@ -69,8 +63,14 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <a href="{{route('user.companies.edit' ,['id'=>$user->id ])}}"
-                                           class="btn-xs btn btn-primary">Изменить</a>
+
+
+                                        <a href="{{route('company.groups.edit' ,['id'=>$group->id ])}}"
+                                           class="btn-xs btn btn-primary mr-1">Изменить</a>
+
+
+                                        <a href="{{route('company.groups.details' ,['id'=>$group->id ])}}"
+                                           class="btn-xs btn btn-info">Информация</a>
                                     </td>
                                 </tr>
                             @endforeach

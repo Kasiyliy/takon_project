@@ -7,7 +7,7 @@
  */
 
 
-Route::group(['namespace' => 'V1'], function () {
+Route::group(['namespace' => 'V1', 'prefix' => 'admin'], function () {
 
 
     Route::get('/roles', ['as' => 'role.index', 'uses' => 'RoleController@index']);
@@ -43,10 +43,5 @@ Route::group(['namespace' => 'V1'], function () {
     Route::get('/users/cashiers/create', ['as' => 'user.cashiers.create', 'uses' => 'UserController@cashiersCreate']);
     Route::post('/users/cashiers/store', ['as' => 'user.cashiers.store', 'uses' => 'UserController@cashiersStore']);
     Route::get('/users/cashiers', ['as' => 'user.cashiers', 'uses' => 'UserController@cashiers']);
-
-
-    //TODO PROPER DELETE ACTION FOR USERS
-    Route::post('/users/updatePassword/{id}', ['as' => 'user.updatePassword', 'uses' => 'UserController@updatePassword'])->where('id', '[0-9]+');
-    Route::post('/users/delete/{id}', ['as' => 'user.delete', 'uses' => 'UserController@delete'])->where('id', '[0-9]+');
 
 });

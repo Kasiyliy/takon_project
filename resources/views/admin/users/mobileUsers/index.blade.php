@@ -8,18 +8,18 @@
                     <div class="panel-header">
                         <h2>Мобильные пользователи</h2>
                         <a class="btn btn-success btn-sm"
-                           href="{{route('user.mobileUsers.create')}}">{{ trans('admin.add') }}</a>
+                           href="{{route('user.mobileUsers.create')}}">Добавить</a>
                     </div>
                     <div class="panel-body">
                         <table class="table table-hover table-responsive" id="dataTable">
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>{{ trans('admin.first_name') }}</th>
-                                <th>{{ trans('admin.last_name') }}</th>
-                                <th>{{ trans('admin.phone') }}</th>
-                                <th>{{ trans('admin.roles') }}</th>
-                                <th>{{ trans('admin.actions') }}</th>
+                                <th>Имя</th>
+                                <th>Фамилия</th>
+                                <th>Мобильный номер</th>
+                                <th>Роль</th>
+                                <th>Действия</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -32,48 +32,46 @@
                                     <td>{{$user->role->name}}</td>
                                     <td class="d-flex">
 
-                                        @if(!$user->untouchable)
-                                            <button type="button" class="btn btn-danger btn-xs mr-1" data-toggle="modal"
-                                                    data-target="#exampleModal{{$user->id}}">
-                                                Удалить
-                                            </button>
+                                        <button type="button" class="btn btn-danger btn-xs mr-1" data-toggle="modal"
+                                                data-target="#exampleModal{{$user->id}}">
+                                            Удалить
+                                        </button>
 
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="exampleModal{{$user->id}}" tabindex="-1"
-                                                 role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <form method="post"
-                                                              action="{{route('user.delete', ['id' => $user->id ])}}">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title"
-                                                                    id="exampleModalLabel">{{ trans('admin.warning') }}</h5>
-                                                                <button type="button" class="close" data-dismiss="modal"
-                                                                        aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                {{ trans('admin.really.delete') }}
-                                                                {{csrf_field()}}
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="exampleModal{{$user->id}}" tabindex="-1"
+                                             role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <form method="post"
+                                                          action="{{route('user.delete', ['id' => $user->id ])}}">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title"
+                                                                id="exampleModalLabel">Предупреждение</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            Вы точно хотите удалить?
+                                                            {{csrf_field()}}
 
 
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary btn-sm"
-                                                                        data-dismiss="modal">{{ trans('admin.cancel') }}</button>
-                                                                <input type="submit" value="{{ trans('admin.delete') }}"
-                                                                       class="btn btn-danger btn-sm mr-1">
-                                                            </div>
-                                                        </form>
-                                                    </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary btn-sm"
+                                                                    data-dismiss="modal">Отмена</button>
+                                                            <input type="submit" value="Удалить"
+                                                                   class="btn btn-danger btn-sm mr-1">
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
-                                        @endif
+                                        </div>
 
 
                                         <a href="{{route('user.mobileUsers.edit' ,['id'=>$user->id ])}}"
-                                           class="btn-xs btn btn-primary">{{ trans('admin.edit') }}</a>
+                                           class="btn-xs btn btn-primary">Изменить</a>
                                     </td>
                                 </tr>
                             @endforeach

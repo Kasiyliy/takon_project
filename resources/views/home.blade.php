@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="row justify-content-center">
             <section class="content">
-                Hello World
+                ТАКОН
             </section>
         </div>
     </div>

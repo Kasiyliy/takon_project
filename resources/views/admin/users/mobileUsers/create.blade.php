@@ -30,7 +30,7 @@
                             <div class="form-group">
                                 <label for="password">Пароль</label>
                                 <input type="password" name="password" class="form-control"
-                                       placeholder="{{ trans('admin.password') }}" required>
+                                       placeholder="Пароль" required>
                             </div>
                             <div class="form-group">
                                 <label>Подтвердите пароль</label>

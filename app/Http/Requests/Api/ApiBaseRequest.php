@@ -10,6 +10,7 @@ use App\Http\Utils\ResponseUtil;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Auth;
 
 abstract class ApiBaseRequest extends FormRequest implements WithUser
 {
@@ -21,6 +22,11 @@ abstract class ApiBaseRequest extends FormRequest implements WithUser
     public function getCurrentUser()
     {
         return request()->user;
+    }
+
+    public function getCurrentUserId()
+    {
+        return  Auth::id();
     }
 
     public abstract function injectedRules();
