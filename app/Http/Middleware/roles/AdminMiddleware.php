@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware\roles;
 
+use App\ModerationStatus;
+use App\Service;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 use Session;

@@ -140,7 +140,10 @@
 
                     <li>
                         <a href="{{route('user.services')}}">
-                            <i class="fa fa-check-circle"></i> <span>Модерация сервисов</span>
+                            <i class="fa fa-check-circle"></i> <span>Модерация сервисов </span>
+                            @if(session()->get('moderationCount'))
+                                <span class="badge">{{session()->get('moderationCount')}}</span>
+                            @endif
                         </a>
                     </li>
 
@@ -179,6 +182,9 @@
                         <a href="{{route('partner.services')}}">
                             <i class="fa fa-server"></i>
                             <span>Сервисы</span>
+                            @if(session()->get('moderationCount'))
+                                <span class="badge">{{session()->get('moderationCount')}}</span>
+                            @endif
                         </a>
                     </li>
                 @endif
