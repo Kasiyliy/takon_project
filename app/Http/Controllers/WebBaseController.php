@@ -20,14 +20,19 @@ class WebBaseController extends Controller implements WithUser
         Session::flash('warning', 'Добавлено!');
     }
 
-	public function inModeration()
-	{
-		Session::flash('warning', "Отправлено на мoдерацию администратору сайта");
-	}
+    public function inModeration()
+    {
+        Session::flash('warning', "Отправлено на мoдерацию администратору сайта");
+    }
 
     public function deleted()
     {
         Session::flash('warning', 'Удалено!');
+    }
+
+    public function successOperation()
+    {
+        Session::flash('success', 'Операция успешна!');
     }
 
     public function edited()
@@ -44,6 +49,11 @@ class WebBaseController extends Controller implements WithUser
     public function error()
     {
         Session::flash('error', 'Ошибка!');
+    }
+
+    public function makeToast($type, $message)
+    {
+        Session::flash($type, $message);
     }
 
     public function getCurrentUser()

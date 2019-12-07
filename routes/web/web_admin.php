@@ -44,4 +44,8 @@ Route::group(['namespace' => 'V1', 'prefix' => 'admin'], function () {
     Route::post('/users/cashiers/store', ['as' => 'user.cashiers.store', 'uses' => 'UserController@cashiersStore']);
     Route::get('/users/cashiers', ['as' => 'user.cashiers', 'uses' => 'UserController@cashiers']);
 
+    Route::get('/services', ['as' => 'user.services', 'uses' => 'ServiceController@services']);
+    Route::post('/services/accept/{id}', ['as' => 'user.services.accept', 'uses' => 'ServiceController@servicesAccept'])->where('id', '[0-9]+');;
+    Route::post('/services/reject/{id}', ['as' => 'user.services.reject', 'uses' => 'ServiceController@servicesReject'])->where('id', '[0-9]+');;
+
 });

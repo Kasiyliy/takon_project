@@ -16,6 +16,10 @@
                                 <th>ID</th>
                                 <th>Название</th>
                                 <th>Цена</th>
+                                <th>Онлайн оплата</th>
+                                <th>Цена для онлайн оплат</th>
+                                <th>Статус модератора</th>
+                                <th>Статус сервиса</th>
                                 <th>Создан</th>
                             </tr>
                             </thead>
@@ -25,6 +29,19 @@
                                     <td>{{$service->id}}</td>
                                     <td>{{$service->name}}</td>
                                     <td>{{$service->price}}</td>
+                                    <td>{{$service->online_payment_enabled ? 'Есть' : 'Нет'}}</td>
+                                    <td>{{$service->online_payment_price}}</td>
+                                    <td>{{$service->moderationStatus->name}}</td>
+                                    <td>
+                                        <form action="{{route('partner.services.toggleStatus', ['id' => $service->id])}}"
+                                              method="post">
+                                            {{csrf_field()}}
+                                            <button type="submit" class="btn btn-sm btn-link">
+                                                <i class="fa fa-hand-o-down"></i>
+                                                {{$service->serviceStatus->name}}
+                                            </button>
+                                        </form>
+                                    </td>
                                     <td>{{$service->created_at}}</td>
                                 </tr>
                             @endforeach

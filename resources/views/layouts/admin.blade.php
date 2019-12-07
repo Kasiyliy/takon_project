@@ -138,6 +138,11 @@
                         </ul>
                     </li>
 
+                    <li>
+                        <a href="{{route('user.services')}}">
+                            <i class="fa fa-check-circle"></i> <span>Модерация сервисов</span>
+                        </a>
+                    </li>
 
 
                     <li class="header">Настройки</li>
@@ -154,6 +159,18 @@
                         <a href="{{route('company.mobileUsers')}}">
                             <i class="fa fa-phone"></i>
                             <span>Мобильные пользователи</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{route('company.groups')}}">
+                            <i class="fa fa-group"></i>
+                            <span>Группы</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{route('company.services')}}">
+                            <i class="fa fa-product-hunt"></i>
+                            <span>Сервисы</span>
                         </a>
                     </li>
                 @elseif(\Illuminate\Support\Facades\Auth::user()->isPartner())
@@ -176,7 +193,7 @@
         </section>
     </div>
     <footer class="main-footer">
-        {{trans('front.All rights reserved')}} {{date('Y')}}. Takon
+        Все права защищены {{date('Y')}}. Takon
     </footer>
 </div>
 

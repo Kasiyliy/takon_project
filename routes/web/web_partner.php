@@ -12,5 +12,6 @@ Route::group(['namespace' => 'V1', 'prefix' => 'partner'], function () {
     Route::get('/services', ['as' => 'partner.services', 'uses' => 'ServiceController@index']);
     Route::get('/services/create', ['as' => 'partner.services.create', 'uses' => 'ServiceController@create']);
     Route::post('/services/store', ['as' => 'partner.services.store', 'uses' => 'ServiceController@store']);
+    Route::post('/services/status/toggle/{id}', ['as' => 'partner.services.toggleStatus', 'uses' => 'ServiceController@toggleStatus'])->where('id', '[0-9]+');
 
 });

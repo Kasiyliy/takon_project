@@ -4,6 +4,7 @@ namespace App\Http\Middleware\roles;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use Session;
 
 class CompanyJMMiddleware
 {

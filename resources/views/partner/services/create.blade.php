@@ -29,13 +29,15 @@
                                        placeholder="Срок действия в днях" required>
                             </div>
                             <div class="form-group">
-                                <label for="is_payment_enabled">Онлайн оплата</label>
-                                <input type="checkbox" name="is_payment_enabled" class="checkbox">
+                                <label class="form-check-label" for="is_payment_enabled">Онлайн оплата</label>
+                                <input onchange="toggleOnlinePrice(this)" type="checkbox" name="is_payment_enabled"
+                                       class="checkbox">
                                 <br>
                             </div>
                             <div class="form-group">
                                 <label>Цена для онлайн оплаты</label>
-                                <input type="number" name="payment_price" class="form-control"
+                                <input disabled id="paymentPrice" type="number" name="payment_price"
+                                       class="form-control"
                                        placeholder="Цена для онлайн оплаты" required>
                             </div>
                             {{csrf_field()}}
@@ -59,4 +61,14 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        var paymentPrice = document.getElementById('paymentPrice');
+
+        function toggleOnlinePrice(element) {
+            paymentPrice.disabled = !element.checked;
+        }
+    </script>
 @endsection

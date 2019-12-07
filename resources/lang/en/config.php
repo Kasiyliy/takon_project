@@ -6,6 +6,6 @@
  * Time: 14:36
  */
 return [
-    'locale.changed' => 'Locale changed!',
-    'language' => 'Language',
+    'locale.changed' => 'Язык был успешно изменен!',
+    'language' => 'Язык',
 ];

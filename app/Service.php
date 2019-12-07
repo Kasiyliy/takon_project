@@ -27,4 +27,9 @@ class Service extends Model
         return $this->belongsTo(ServiceStatus::class, 'service_status_id');
     }
 
+    public function moderationStatus()
+    {
+        return $this->belongsTo(ModerationStatus::class, 'moderation_status_id');
+    }
+
 }
