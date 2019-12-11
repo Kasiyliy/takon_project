@@ -22,6 +22,9 @@ Route::group(['namespace' => 'V1', 'prefix' => 'company'], function () {
     Route::post('/groups/store', ['as' => 'company.groups.store', 'uses' => 'GroupController@groupsStore']);
     Route::get('/groups', ['as' => 'company.groups', 'uses' => 'GroupController@groups']);
 
+    Route::get('/services/company/orders', ['as' => 'company.services.orders', 'uses' => 'ServiceController@servicesOrders'])->where('service_id', '[0-9]+');
+    Route::post('/services/make-order/{service_id}', ['as' => 'company.services.purchase', 'uses' => 'ServiceController@servicesPurchase'])->where('service_id', '[0-9]+');
+    Route::get('/services/make-order/{service_id}', ['as' => 'company.services.makeOrder', 'uses' => 'ServiceController@servicesMakeOrder'])->where('service_id', '[0-9]+');
     Route::get('/services/{id}', ['as' => 'company.services.details', 'uses' => 'ServiceController@servicesDetails'])->where('id', '[0-9]+');
     Route::get('/services', ['as' => 'company.services', 'uses' => 'ServiceController@services']);
 });

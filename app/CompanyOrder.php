@@ -33,4 +33,9 @@ class CompanyOrder extends Model
     protected $dates = [
         'due_date',
     ];
+
+    public function formatNumber(float $val)
+    {
+        return number_format($val, 2, ',', '.');
+    }
 }

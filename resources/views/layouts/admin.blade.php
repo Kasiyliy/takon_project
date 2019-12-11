@@ -170,11 +170,22 @@
                             <span>Группы</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="{{route('company.services')}}">
-                            <i class="fa fa-product-hunt"></i>
-                            <span>Сервисы</span>
+
+                    <li class="treeview" style="height: auto;">
+                        <a href="#">
+                            <i class="fa fa-product-hunt"></i> <span>Услуги</span>
+                            <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
                         </a>
+                        <ul class="treeview-menu" style="">
+                            <li>
+                                <a href="{{route('company.services')}}"><i class="fa fa-circle-o"></i>Просмотр услуг</a>
+                            </li>
+                            <li>
+                                <a href="{{route('company.services.orders')}}"><i class="fa fa-circle-o"></i>Мои заказы</a>
+                            </li>
+                        </ul>
                     </li>
                 @elseif(\Illuminate\Support\Facades\Auth::user()->isPartner())
                     <li class="header">Партнер</li>

@@ -9,10 +9,7 @@ class MobileUserStoreRequest extends WebBaseRequest
     public function injectedRules()
     {
         return [
-            'username' => ['required', 'unique:users'],
-            'password' => ['required', 'confirmed', 'min:8', 'string'],
-            'first_name' => ['required', 'string'],
-            'last_name' => ['required', 'string'],
+            'amount' => ['required', 'numeric', 'min:0'],
         ];
     }
 }

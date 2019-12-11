@@ -8,6 +8,7 @@ class OrderStatus extends Model
 {
     public const STATUS_WAITING_ID = 1;
     public const STATUS_APPROVED_ID = 2;
+    public const STATUS_REJECTED_ID = 3;
 
     public $timestamps = false;
 

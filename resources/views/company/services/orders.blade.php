@@ -6,32 +6,32 @@
             <div class="col-sm-12">
                 <div class="panel" style="padding: 10px;">
                     <div class="panel-body">
-                        <h2>Партнер {{$partner->name}}</h2>
-                        <a class="btn btn-primary btn-sm"
-                           href="{{route('company.services')}}">Назад</a>
+                        <h2>Мои заказы услуг</h2>
                     </div>
                 </div>
             </div>
-            @foreach($partner->services as $service)
+            @foreach($companyOrders as $companyOrder)
                 <div class="col-sm-4">
                     <div class="panel bg-blue">
                         <div class="panel-header">
-                            <h2>{{$service->name}}</h2>
+                            <h2>{{$companyOrder->service->name}}</h2>
                         </div>
                         <div class="panel-body">
                             <p>
-                                Цена: {{$service->price}} таконов
+                                Цена за единицу на момент покупки: {{$companyOrder->actual_service_price}} таконов
                             </p>
                             <p>
-                                Срок годности: {{$service->expiration_days}} дней
+                                Количество купленных единиц: {{$companyOrder->amount}}
+                            </p>
+                            <p>
+                                Сумма
+                                покупки: {{$companyOrder->formatNumber($companyOrder->amount * $companyOrder->actual_service_price)}}
+                                таконов
                             </p>
                         </div>
                         <div class="panel-footer">
                             <p class="text-primary">
-                                Статус: {{$service->serviceStatus->name}}
-                            </p>
-                            <p class="text-right">
-                                <a class="btn-danger btn btn-sm" href="{{route('company.services.makeOrder', ['service_id' => $service->id])}}">Заказать</a>
+                                Статус: {{$companyOrder->orderStatus->name}}
                             </p>
                         </div>
                     </div>
