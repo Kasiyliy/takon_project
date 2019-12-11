@@ -95,11 +95,11 @@ class ServiceController extends WebBaseController
     {
         $companyOrders = CompanyOrder::with([
             'orderStatus',
-            'company' => function ($query) {
-                $query->where('companies.id', '=', $this->getCurrentUser()->company->id);
-            },
+            'company',
             'service'
-        ])->get();
+        ])
+            ->where('company_orders.company_id', '=', $this->getCurrentUser()->company->id)
+            ->get();
 
         return view('company.services.orders', compact('companyOrders'));
     }

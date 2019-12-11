@@ -192,11 +192,41 @@
                     <li>
                         <a href="{{route('partner.services')}}">
                             <i class="fa fa-server"></i>
-                            <span>Сервисы</span>
+                            <span>Услуги</span>
                             @if(session()->get('moderationCount'))
                                 <span class="badge">{{session()->get('moderationCount')}}</span>
                             @endif
                         </a>
+                    </li>
+                    <li>
+                    </li>
+                    <li class="treeview" style="height: auto;">
+                        <a href="#">
+                            <i class="fa fa-product-hunt"></i> <span>Заказы</span>
+                            <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                        </a>
+                        <ul class="treeview-menu" style="">
+                            <li>
+                                <a href="{{route('partner.services.orders')}}">
+                                    <i class="fa fa-circle-o"></i>
+                                    <span>Заказы</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{route('partner.services.ordersRejected')}}">
+                                    <i class="fa fa-circle-o"></i>
+                                    <span>Отказанные заказы</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{route('partner.services.ordersAccepted')}}">
+                                    <i class="fa fa-circle-o"></i>
+                                    <span>Принятые заказы</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 @endif
             </ul>
