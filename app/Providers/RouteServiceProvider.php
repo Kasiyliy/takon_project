@@ -110,7 +110,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapApiCashierRoutes()
     {
         Route::prefix('api/cashiers')
-            ->middleware(['api', 'token', 'ROLE_CASHIER'])
+            ->middleware(['api'])
             ->namespace($this->namespace . RouteServiceProvider::CASHIER_PREFIX)
             ->group(base_path('routes/api/api_cashier.php'));
     }
@@ -118,7 +118,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapApiMobileUserRoutes()
     {
         Route::prefix('api/mobile-users')
-            ->middleware(['api', 'token', 'ROLE_MOBILE_USER'])
+            ->middleware(['api'])
             ->namespace($this->namespace . RouteServiceProvider::MOBILE_USER_PREFIX)
             ->group(base_path('routes/api/api_mobile_user.php'));
     }
