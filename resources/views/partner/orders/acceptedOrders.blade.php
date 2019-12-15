@@ -42,6 +42,10 @@
                     </div>
                 </div>
             @endforeach
+
+            <div class="col-sm-12 text-center">
+                {{ $companyOrders->links() }}
+            </div>
         </div>
     </div>
 @endsection

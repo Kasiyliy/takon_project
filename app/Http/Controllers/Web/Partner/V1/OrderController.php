@@ -4,11 +4,9 @@ namespace App\Http\Controllers\Web\Partner\V1;
 
 use App\CompanyOrder;
 use App\Exceptions\WebServiceErroredException;
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\WebBaseController;
 use App\OrderStatus;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends WebBaseController
@@ -20,7 +18,7 @@ class OrderController extends WebBaseController
             ->join('services as s', 's.id', '=', 'company_orders.service_id')
             ->where('s.partner_id', '=', $this->getCurrentUser()->partner->id)
             ->where('company_orders.order_status_id', '=', OrderStatus::STATUS_WAITING_ID)
-            ->get();
+            ->paginate(9);
         return view('partner.orders.index', compact('companyOrders'));
     }
 
@@ -70,7 +68,7 @@ class OrderController extends WebBaseController
         $companyOrders = CompanyOrder::join('services', 'services.id', '=', 'company_orders.service_id')
             ->where('services.partner_id', '=', $this->getCurrentUser()->partner->id)
             ->where('company_orders.order_status_id', '=', OrderStatus::STATUS_APPROVED_ID)
-            ->get();
+            ->paginate(9);
         return view('partner.orders.acceptedOrders', compact('companyOrders'));
     }
 
@@ -79,7 +77,7 @@ class OrderController extends WebBaseController
         $companyOrders = CompanyOrder::join('services', 'services.id', '=', 'company_orders.service_id')
             ->where('services.partner_id', '=', $this->getCurrentUser()->partner->id)
             ->where('company_orders.order_status_id', '=', OrderStatus::STATUS_REJECTED_ID)
-            ->get();
+            ->paginate(9);
         return view('partner.orders.rejectedOrders', compact('companyOrders'));
     }
 }
