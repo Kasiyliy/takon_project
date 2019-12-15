@@ -21,9 +21,9 @@ class RouteServiceProvider extends ServiceProvider
 
     protected const COMPANY_JM_PREFIX = '\Web\CompanyJM';
     protected const PARTNER_PREFIX = '\Web\Partner';
-    protected const CASHIER_PREFIX = '\Cashier';
+    protected const CASHIER_PREFIX = '\Api\Cashier';
     protected const ADMIN_PREFIX = '\Web\Admin';
-    protected const MOBILE_USER_PREFIX = '\MobileUser';
+    protected const MOBILE_USER_PREFIX = '\Api\MobileUser';
 
     /**
      * Define your route model bindings, pattern filters, etc.
