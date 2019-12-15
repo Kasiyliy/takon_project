@@ -37,6 +37,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\LocalizationMiddleware::class,
             \App\Http\Middleware\badges\ModerationCountMiddleware::class,
+            \App\Http\Middleware\badges\OrderCountMiddleware::class,
 
         ],
 

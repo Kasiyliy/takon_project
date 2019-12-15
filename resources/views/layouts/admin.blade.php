@@ -205,6 +205,9 @@
                             <i class="fa fa-product-hunt"></i> <span>Заказы</span>
                             <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
+                                @if(session()->get('ordersCount'))
+                                    <span class="badge">{{session()->get('ordersCount')}}</span>
+                                @endif
                     </span>
                         </a>
                         <ul class="treeview-menu" style="">
@@ -212,6 +215,9 @@
                                 <a href="{{route('partner.services.orders')}}">
                                     <i class="fa fa-circle-o"></i>
                                     <span>Заказы в ожидании</span>
+                                    @if(session()->get('ordersCount'))
+                                        <span class="badge">{{session()->get('ordersCount')}}</span>
+                                    @endif
                                 </a>
                             </li>
                             <li>

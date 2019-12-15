@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware\badges;
 
+use App\CompanyOrder;
 use App\ModerationStatus;
+use App\OrderStatus;
 use App\Service;
 use Closure;
 use Illuminate\Support\Facades\Auth;
