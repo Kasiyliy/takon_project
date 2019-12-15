@@ -16,7 +16,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected $namespace = 'App\Http\Controllers';
 
-    protected const COMMON_PREFIX = '\Web\Common';
+    protected const COMMON_WEB_PREFIX = '\Web\Common';
+    protected const COMMON_API_PREFIX = '\Web\Api';
 
     protected const COMPANY_JM_PREFIX = '\Web\CompanyJM';
     protected const PARTNER_PREFIX = '\Web\Partner';
@@ -63,7 +64,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes()
     {
         Route::middleware('web')
-            ->namespace($this->namespace . RouteServiceProvider::COMMON_PREFIX)
+            ->namespace($this->namespace . RouteServiceProvider::COMMON_WEB_PREFIX)
             ->group(base_path('routes/web.php'));
     }
 
@@ -101,14 +102,14 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('api')
             ->middleware('api')
-            ->namespace($this->namespace . RouteServiceProvider::COMMON_PREFIX)
+            ->namespace($this->namespace . RouteServiceProvider::COMMON_API_PREFIX)
             ->group(base_path('routes/api.php'));
     }
 
 
     protected function mapApiCashierRoutes()
     {
-        Route::prefix('api')
+        Route::prefix('api/cashiers')
             ->middleware(['api', 'token', 'ROLE_CASHIER'])
             ->namespace($this->namespace . RouteServiceProvider::CASHIER_PREFIX)
             ->group(base_path('routes/api/api_cashier.php'));
@@ -116,7 +117,7 @@ class RouteServiceProvider extends ServiceProvider
 
     protected function mapApiMobileUserRoutes()
     {
-        Route::prefix('api')
+        Route::prefix('api/mobile-users')
             ->middleware(['api', 'token', 'ROLE_MOBILE_USER'])
             ->namespace($this->namespace . RouteServiceProvider::MOBILE_USER_PREFIX)
             ->group(base_path('routes/api/api_mobile_user.php'));

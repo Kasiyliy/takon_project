@@ -12,15 +12,15 @@ class TokenUserMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Closure $next
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
         $user = User::where('token', $request->token)->first();
-        if(!$user){
-            return ResponseUtil::makeResponse(401,false, [
+        if (!$user) {
+            return ResponseUtil::makeResponse(401, false, [
                 "errors" => [
                     "unauthorized"
                 ],

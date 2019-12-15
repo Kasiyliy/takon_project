@@ -26,7 +26,7 @@ abstract class ApiBaseRequest extends FormRequest implements WithUser
 
     public function getCurrentUserId()
     {
-        return  Auth::id();
+        return Auth::id();
     }
 
     public abstract function injectedRules();

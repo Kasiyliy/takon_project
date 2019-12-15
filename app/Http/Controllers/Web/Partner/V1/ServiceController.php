@@ -75,7 +75,7 @@ class ServiceController extends WebBaseController
             ->where('services.partner_id', '=', $this->getCurrentUser()->partner->id)
             ->where('company_orders.order_status_id', '=', OrderStatus::STATUS_WAITING_ID)
             ->get();
-        return view('partner.services.orders', compact('companyOrders'));
+        return view('partner.orders.index', compact('companyOrders'));
     }
 
     public function ordersAccept($id)
@@ -136,7 +136,7 @@ class ServiceController extends WebBaseController
             ->where('services.partner_id', '=', $this->getCurrentUser()->partner->id)
             ->where('company_orders.order_status_id', '=', OrderStatus::STATUS_APPROVED_ID)
             ->get();
-        return view('partner.services.acceptedOrders', compact('companyOrders'));
+        return view('partner.orders.acceptedOrders', compact('companyOrders'));
     }
 
     public function ordersRejected()
@@ -145,6 +145,6 @@ class ServiceController extends WebBaseController
             ->where('services.partner_id', '=', $this->getCurrentUser()->partner->id)
             ->where('company_orders.order_status_id', '=', OrderStatus::STATUS_REJECTED_ID)
             ->get();
-        return view('partner.services.rejectedOrders', compact('companyOrders'));
+        return view('partner.orders.rejectedOrders', compact('companyOrders'));
     }
 }

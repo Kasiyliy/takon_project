@@ -197,9 +197,6 @@
                                 <span class="badge">{{session()->get('moderationCount')}}</span>
                             @endif
                         </a>
-                    <li>
-                        <a href="{{route('user.cashiers')}}"><i class="fa fa-circle-o"></i>Продавцы</a>
-                    </li>
                     </li>
                     <li>
                     </li>

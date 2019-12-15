@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Api\MobileUser;
 
 use App\Code;
 use App\Http\Controllers\ApiBaseController;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Auth\LoginRequest;
 use App\Http\Utils\ApiUtil;
-use Illuminate\Http\Request;
 
 class ApiController extends ApiBaseController
 {
