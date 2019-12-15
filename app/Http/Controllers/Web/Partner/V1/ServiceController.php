@@ -70,7 +70,8 @@ class ServiceController extends WebBaseController
 
     public function orders()
     {
-        $companyOrders = CompanyOrder::join('services', 'services.id', '=', 'company_orders.service_id')
+        $companyOrders = CompanyOrder::select('company_orders.*')
+            ->join('services', 'services.id', '=', 'company_orders.service_id')
             ->where('services.partner_id', '=', $this->getCurrentUser()->partner->id)
             ->where('company_orders.order_status_id', '=', OrderStatus::STATUS_WAITING_ID)
             ->get();
@@ -82,20 +83,22 @@ class ServiceController extends WebBaseController
         $companyOrder = CompanyOrder::with([
             'orderStatus',
             'company',
-            'service' => function ($query) {
-                $query->where('services.partner_id', '=', $this->getCurrentUser()->partner->id);
-            }
+            'service'
         ])
             ->join('services', 'services.id', '=', 'company_orders.service_id')
             ->where('services.partner_id', '=', $this->getCurrentUser()->partner->id)
             ->where('company_orders.order_status_id', '=', OrderStatus::STATUS_WAITING_ID)
-            ->findOrFail($id);
+            ->where('company_orders.id', '=', $id)
+            ->first();
 
+        DB::beginTransaction();
         try {
             $companyOrder->due_date = Carbon::now()->addDays($companyOrder->service->expiration_days);
             $companyOrder->order_status_id = OrderStatus::STATUS_APPROVED_ID;
             $companyOrder->save();
+            DB::commit();
         } catch (\Exception $exception) {
+            DB::rollBack();
             throw new WebServiceErroredException('Ошибка! Обратитесь к администратору!');
         }
         $this->makeToast('success', 'Вы приняли запрос на заказ на услугу!');

@@ -86,6 +86,7 @@ class ServiceController extends WebBaseController
             $this->makeToast('success', 'Запрос на покупку таконов успешно сделан!');
             return redirect()->back();
         } catch (\Exception $exception) {
+            DB::rollBack();
             throw new WebServiceErroredException('Ошибка! Обратитесь к администратору!');
         }
 

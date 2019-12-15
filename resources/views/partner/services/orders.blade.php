@@ -32,6 +32,9 @@
                                 Дата
                                 заказа: {{$companyOrder->created_at}}
                             </p>
+                            <p>
+                                Статус: {{$companyOrder->orderStatus->name}}
+                            </p>
                         </div>
                         <div class="panel-footer">
                             <div class="row">
