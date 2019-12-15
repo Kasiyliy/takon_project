@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Common;
+namespace App\Http\Controllers\Api\Common\v1;
 
 use App\Http\Controllers\ApiBaseController;
 
