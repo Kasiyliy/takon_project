@@ -199,6 +199,7 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{route('partner.cashiers')}}"><i class="fa fa-shopping-cart"></i>Продавцы</a>
                     </li>
                     <li class="treeview" style="height: auto;">
                         <a href="#">

@@ -65,16 +65,15 @@ class UserController extends WebBaseController
     //CASHIERS
     public function cashiers()
     {
-    	if(Auth::user()->isPartner()){
-		    $users = User::with('role', 'cashier')
-			    ->where('role_id', Role::ROLE_CASHIER_ID)
-			    ->where()
-			    ->get();
-	    }else{
-		    $users = User::with('role', 'cashier')
-			    ->where('role_id', Role::ROLE_CASHIER_ID)
-			    ->get();
-	    }
+        if (Auth::user()->isPartner()) {
+            $users = User::with('role', 'cashier')
+                ->where('role_id', Role::ROLE_CASHIER_ID)
+                ->get();
+        } else {
+            $users = User::with('role', 'cashier')
+                ->where('role_id', Role::ROLE_CASHIER_ID)
+                ->get();
+        }
 
         return view('admin.users.cashiers.index', compact("users"));
     }

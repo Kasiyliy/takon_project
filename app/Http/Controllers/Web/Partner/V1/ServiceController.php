@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Web\Partner\V1;
 use App\CompanyOrder;
 use App\Exceptions\WebServiceErroredException;
 use App\Http\Controllers\WebBaseController;
-use App\Http\Requests\Web\Admin\V1\ServiceControllerRequests\CreateServiceRequest;
+use App\Http\Requests\Web\Partner\V1\ServiceControllerRequests\CreateServiceRequest;
 use App\ModerationStatus;
 use App\OrderStatus;
 use App\Service;

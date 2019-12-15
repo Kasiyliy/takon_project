@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Web\Admin\V1\ServiceControllerRequests;
+namespace App\Http\Requests\Web\Partner\V1\ServiceControllerRequests;
 
 use App\Http\Requests\Web\WebBaseRequest;
 use Illuminate\Foundation\Http\FormRequest;
