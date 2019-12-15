@@ -12,7 +12,7 @@
             </div>
             @foreach($companyOrders as $companyOrder)
                 <div class="col-sm-4">
-                    <div class="panel bg-green">
+                    <div class="panel bg-blue">
                         <div class="panel-header">
                             <h2>{{"ЮЛ. ".$companyOrder->company->name." заказывает услугу '".$companyOrder->service->name."'"}}</h2>
                         </div>

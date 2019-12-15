@@ -12,7 +12,15 @@
             </div>
             @foreach($companyOrders as $companyOrder)
                 <div class="col-sm-4">
-                    <div class="panel bg-blue">
+                    <div class="panel
+                        @if($companyOrder->orderStatus->id == \App\OrderStatus::STATUS_WAITING_ID)
+                    {{"bg-info"}}
+                    @elseif($companyOrder->orderStatus->id == \App\OrderStatus::STATUS_APPROVED_ID)
+                    {{"bg-blue"}}
+                    @elseif($companyOrder->orderStatus->id == \App\OrderStatus::STATUS_REJECTED_ID)
+                    {{"bg-red"}}
+                    @endif
+                            ">
                         <div class="panel-header">
                             <h2>{{$companyOrder->service->name}}</h2>
                         </div>
@@ -37,6 +45,10 @@
                     </div>
                 </div>
             @endforeach
+
+            <div class="col-sm-12 text-center">
+                {{ $companyOrders->links() }}
+            </div>
         </div>
     </div>
 @endsection

@@ -211,7 +211,7 @@
                             <li>
                                 <a href="{{route('partner.services.orders')}}">
                                     <i class="fa fa-circle-o"></i>
-                                    <span>Заказы</span>
+                                    <span>Заказы в ожидании</span>
                                 </a>
                             </li>
                             <li>

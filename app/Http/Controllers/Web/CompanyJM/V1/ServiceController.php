@@ -100,7 +100,7 @@ class ServiceController extends WebBaseController
             'service'
         ])
             ->where('company_orders.company_id', '=', $this->getCurrentUser()->company->id)
-            ->get();
+            ->paginate(9);
 
         return view('company.services.orders', compact('companyOrders'));
     }

@@ -12,7 +12,7 @@
             </div>
             @foreach($companyOrders as $companyOrder)
                 <div class="col-sm-4">
-                    <div class="panel bg-blue">
+                    <div class="panel bg-info">
                         <div class="panel-header">
                             <h2>{{"ЮЛ. ".$companyOrder->company->name." заказывает услугу '".$companyOrder->service->name."'"}}</h2>
                         </div>
@@ -42,7 +42,7 @@
                                     <form action="{{route('partner.services.ordersAccept', ['id' => $companyOrder->id])}}"
                                           method="post">
                                         {{csrf_field()}}
-                                        <input type="submit" class="btn btn-primary" value="Одобрить">
+                                        <input type="submit" class="btn btn-info" value="Одобрить">
                                     </form>
                                 </div>
 
