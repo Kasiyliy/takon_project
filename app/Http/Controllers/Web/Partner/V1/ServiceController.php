@@ -18,7 +18,10 @@ class ServiceController extends WebBaseController
 {
     public function index()
     {
-        $services = Service::with(['moderationStatus', 'serviceStatus'])->where('partner_id', Auth::user()->partner->id)->get();
+        $services = Service::with(['moderationStatus', 'serviceStatus'])
+            ->where('partner_id', Auth::user()->partner->id)
+            ->orderBy('services.created_at', 'desc')
+            ->paginate(10);
         return view('partner.services.index')->with(['services' => $services]);
     }
 

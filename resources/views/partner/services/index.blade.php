@@ -50,11 +50,14 @@
                     </div>
                 </div>
             </div>
+            <div class="col-sm-12 text-center">
+                {{ $services->links() }}
+            </div>
         </div>
     </div>
 @endsection
 
 
 @section('datatable')
-    @include('layouts.datatable')
+    {{--@include('layouts.datatable')--}}
 @endsection

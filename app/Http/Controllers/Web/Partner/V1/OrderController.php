@@ -18,6 +18,7 @@ class OrderController extends WebBaseController
             ->join('services as s', 's.id', '=', 'company_orders.service_id')
             ->where('s.partner_id', '=', $this->getCurrentUser()->partner->id)
             ->where('company_orders.order_status_id', '=', OrderStatus::STATUS_WAITING_ID)
+            ->orderBy('company_orders.created_at', 'desc')
             ->paginate(9);
         return view('partner.orders.index', compact('companyOrders'));
     }
@@ -68,6 +69,7 @@ class OrderController extends WebBaseController
         $companyOrders = CompanyOrder::join('services', 'services.id', '=', 'company_orders.service_id')
             ->where('services.partner_id', '=', $this->getCurrentUser()->partner->id)
             ->where('company_orders.order_status_id', '=', OrderStatus::STATUS_APPROVED_ID)
+            ->orderBy('company_orders.created_at', 'desc')
             ->paginate(9);
         return view('partner.orders.acceptedOrders', compact('companyOrders'));
     }
@@ -77,6 +79,7 @@ class OrderController extends WebBaseController
         $companyOrders = CompanyOrder::join('services', 'services.id', '=', 'company_orders.service_id')
             ->where('services.partner_id', '=', $this->getCurrentUser()->partner->id)
             ->where('company_orders.order_status_id', '=', OrderStatus::STATUS_REJECTED_ID)
+            ->orderBy('company_orders.created_at', 'desc')
             ->paginate(9);
         return view('partner.orders.rejectedOrders', compact('companyOrders'));
     }
