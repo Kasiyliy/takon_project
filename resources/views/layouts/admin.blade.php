@@ -171,6 +171,14 @@
                         </a>
                     </li>
 
+                    <li>
+                        <a href="{{route('company.services.orders')}}">
+                            <i class="fa fa-share"></i>
+                            <span>
+                                Раздать сервисы
+                            </span>
+                        </a>
+                    </li>
                     <li class="treeview" style="height: auto;">
                         <a href="#">
                             <i class="fa fa-product-hunt"></i> <span>Услуги</span>
@@ -183,7 +191,7 @@
                                 <a href="{{route('company.services')}}"><i class="fa fa-circle-o"></i>Просмотр услуг</a>
                             </li>
                             <li>
-                                <a href="{{route('company.services.orders')}}"><i class="fa fa-circle-o"></i>Мои заказы</a>
+                                <a href="{{route('company.services.orders')}}"><i class="fa fa-circle-o"></i>История заказов</a>
                             </li>
                         </ul>
                     </li>
@@ -235,6 +243,10 @@
                             </li>
                         </ul>
                     </li>
+                @elseif(\Illuminate\Support\Facades\Auth::user()->isMobileUser())
+                    <li class="header">Мобильный пользователь</li>
+                @elseif(\Illuminate\Support\Facades\Auth::user()->isCashier())
+                    <li class="header">Продавец</li>
                 @endif
             </ul>
         </section>
