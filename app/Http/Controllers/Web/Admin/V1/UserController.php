@@ -18,6 +18,7 @@ use App\Partner;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Session;
 use Validator;
@@ -64,9 +65,17 @@ class UserController extends WebBaseController
     //CASHIERS
     public function cashiers()
     {
-        $users = User::with('role', 'cashier')
-            ->where('role_id', Role::ROLE_CASHIER_ID)
-            ->get();
+    	if(Auth::user()->isPartner()){
+		    $users = User::with('role', 'cashier')
+			    ->where('role_id', Role::ROLE_CASHIER_ID)
+			    ->where()
+			    ->get();
+	    }else{
+		    $users = User::with('role', 'cashier')
+			    ->where('role_id', Role::ROLE_CASHIER_ID)
+			    ->get();
+	    }
+
         return view('admin.users.cashiers.index', compact("users"));
     }
 

@@ -20,7 +20,7 @@ class ApiBaseController extends Controller implements WithUser
 
     public function failedResponse(Array $other)
     {
-        return ResponseUtil::makeResponse(200, true, $other);
+        return ResponseUtil::makeResponse(200, false, $other);
     }
 
     public function getCurrentUser()
@@ -32,6 +32,7 @@ class ApiBaseController extends Controller implements WithUser
     {
         return  Auth::id();
     }
+
 
 
 }
