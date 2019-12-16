@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api\MobileUser\V1;
 
 use App\Account;
 use App\Code;
+use App\Exceptions\ApiServiceException;
 use App\Http\Controllers\ApiBaseController;
+use App\Http\Requests\Api\ApiBaseRequest;
 use App\Http\Requests\Api\Auth\CheckCodeRequest;
 use App\Http\Requests\Api\Auth\LoginRequest;
 use App\Http\Utils\ApiUtil;
@@ -66,9 +68,9 @@ class ApiController extends ApiBaseController
 				}
 				DB::commit();
 				return $this->makeResponse(200, true, ['token' => $user->token, 'user' => $user]);
-			}catch (\Exception $exception){
+			}catch (ApiServiceException $exception){
 				DB::rollBack();
-//				return $this->makeResponse(200, false, ['errors' => $exception->getMessage()]);
+				return $this->makeResponse(200, false, ['errors' => $exception->getMessage()]);
 			}
 
 
@@ -77,5 +79,14 @@ class ApiController extends ApiBaseController
 			return $this->makeResponse(401, false, []);
 		}
     }
+
+
+
+    public function getPartners(ApiBaseRequest $request){
+    	$user = $request->user;
+
+    }
+
+
 
 }
