@@ -6,6 +6,7 @@ use App\Account;
 use App\Code;
 use App\Exceptions\ApiServiceException;
 use App\Http\Controllers\ApiBaseController;
+use App\Http\Errors\ErrorCode;
 use App\Http\Requests\Api\ApiBaseRequest;
 use App\Http\Requests\Api\Auth\CheckCodeRequest;
 use App\Http\Requests\Api\Auth\LoginRequest;
@@ -37,56 +38,40 @@ class ApiController extends ApiBaseController
         return $this->makeResponse(200, true, ["message" => "success"]);
     }
 
-    public function checkCode(CheckCodeRequest $request){
-		$codeModel = Code::where('phone', $request->phone)->where('code', $request->code)->first();
-		if ($codeModel){
+    public function checkCode(CheckCodeRequest $request)
+    {
+        $codeModel = Code::where('phone', $request->phone)->where('code', $request->code)->first();
+        if ($codeModel) {
+            $user = User::where('phone', $request->phone)->first();
+            DB::beginTransaction();
 
-			$user = User::where('phone', $request->phone)->first();
-			DB::beginTransaction();
-
-			try{
-				if($user){
-					$user->token = ApiUtil::generateToken();
-					$user->save();
-				}else{
-					$user = new User();
-					$user->username = $request->phone;
-					$user->phone_number = $user->phone;
-//			$user->password = bcrypt($request->password);
-					$user->token = ApiUtil::generateToken();
-					$user->role_id = Role::ROLE_MOBILE_USER_ID;
-					$user->save();
-
-					$account = new Account();
-					$account->role_id = Role::ROLE_MOBILE_USER_ID;
-					$account->save();
-
-					$mobileUser = new MobileUser();
-					$mobileUser->account_id = $account->id;
-					$mobileUser->user_id = $user->id;
-					$mobileUser->save();
-				}
-				DB::commit();
-				return $this->makeResponse(200, true, ['token' => $user->token, 'user' => $user]);
-			}catch (ApiServiceException $exception){
-				DB::rollBack();
-				return $this->makeResponse(200, false, ['errors' => $exception->getMessage()]);
-			}
-
-
-		}else{
-
-			return $this->makeResponse(401, false, []);
-		}
+            try {
+                if ($user) {
+                    $user->token = ApiUtil::generateToken();
+                    $user->save();
+                }
+                DB::commit();
+                return $this->makeResponse(200, true, ['token' => $user->token, 'user' => $user]);
+            } catch (\Exception $exception) {
+                DB::rollBack();
+                throw new ApiServiceException(200, false, [
+                    'errorCode' => ErrorCode::SYSTEM_ERROR,
+                    'errors' => [
+                        'System error'
+                    ]
+                ]);
+            }
+        } else {
+            return $this->makeResponse(401, false, []);
+        }
     }
 
 
-
-    public function getPartners(ApiBaseRequest $request){
-    	$user = $request->user;
+    public function getPartners(ApiBaseRequest $request)
+    {
+        $user = $request->user;
 
     }
-
 
 
 }
