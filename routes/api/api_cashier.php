@@ -11,7 +11,6 @@
 
 Route::group(['namespace' => 'V1', 'prefix' => 'V1'], function () {
 
-    Route::post('/auth/login', ['as' => 'auth.login', 'uses' => 'ApiController@logIn'])->where('id', '[0-9]+');
 
     Route::group(['middleware' => ['token', 'ROLE_CASHIER']], function () {
 

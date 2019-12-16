@@ -4,6 +4,8 @@
 namespace App\Http\Utils;
 
 
+use Illuminate\Support\Str;
+
 class ApiUtil
 {
 
@@ -33,6 +35,10 @@ class ApiUtil
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_exec($ch);
         curl_close($ch);
+    }
+
+    public static function generateToken() : string {
+    	return Str::random(42);
     }
 
 }
