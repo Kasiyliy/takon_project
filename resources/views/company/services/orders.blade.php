@@ -38,9 +38,9 @@
                             </p>
                         </div>
                         <div class="panel-footer">
-                            <p class="text-primary">
-                                Статус: {{$companyOrder->orderStatus->name}}
-                            </p>
+
+                            <a href="{{ route('company.services.send-user', $companyOrder->id) }}"><button class="btn-success btn">Отправить пользователю</button></a>
+
                         </div>
                     </div>
                 </div>

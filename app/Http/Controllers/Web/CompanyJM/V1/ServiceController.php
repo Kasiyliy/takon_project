@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers\Web\CompanyJM\V1;
 
+use App\AccountCompanyOrder;
 use App\CompanyOrder;
 use App\Exceptions\WebServiceErroredException;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\WebBaseController;
+use App\Http\Requests\Web\CompanyJM\V1\ServiceControllerRequests\ServiceSendRequest;
 use App\Http\Requests\Web\CompanyJM\V1\ServiceControllerRequests\ServicesPurchaseRequest;
 use App\ModerationStatus;
 use App\OrderStatus;
 use App\Partner;
 use App\Service;
 use App\ServiceStatus;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -27,6 +30,45 @@ class ServiceController extends WebBaseController
             $query->where('services.moderation_status_id', '=', ModerationStatus::MODERATION_STATUS_APPROVED_ID);
         }])->get();
         return view('company.services.index', compact('partners'));
+    }
+
+    public function sendUsers($id){
+    	$companyOrder = CompanyOrder::with(['service'])
+		    ->find($id);
+    	return view('company.services.send-user', compact('companyOrder'));
+    }
+
+    public function sendUsersStore(ServiceSendRequest $request){
+		$companyOrder = CompanyOrder::with('service')
+			->findOrFail($request->id);
+		if($companyOrder->amount < $request->amount){
+			return redirect()->back()->with('error', 'Недостаточно Таконов');
+		}
+		$user = User::with('mobileUser')
+			->where('phone_number', $request->phone)
+			->first();
+		if(!$user){
+			return redirect()->back()->with('error', 'Такого пользователя не существует');
+		}
+		try{
+			DB::beginTransaction();
+			$usersService = AccountCompanyOrder::where('company_order_id', $companyOrder->id)
+				->where('account_id', $user->mobileUser->account_id)->first();
+			if($usersService){
+				$usersService->amount += $request->amount;
+			}else{
+				$usersService = new AccountCompanyOrder();
+				$usersService->amount = $request->amount;
+				$usersService->account_id = $user->mobileUser->acoount_id;
+				$usersService->company_order_id = $companyOrder->id;
+			}
+			$usersService->save();
+			DB::commit();
+			$this->makeToast('success', 'Вы успешно отправили пользователю таконы');
+			return redirect()->back();
+		}catch (\Exception $exception){
+			throw new WebServiceErroredException($exception->getMessage());
+		}
     }
 
     public function servicesDetails($id)

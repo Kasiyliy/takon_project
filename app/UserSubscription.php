@@ -6,5 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserSubscription extends Model
 {
-    protected $fillable = [];
+    protected $fillable = [ 'user_id', 'partner_id'];
+
 }

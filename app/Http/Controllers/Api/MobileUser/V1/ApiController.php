@@ -52,7 +52,6 @@ class ApiController extends ApiBaseController
 					$user = new User();
 					$user->username = $request->phone;
 					$user->phone_number = $user->phone;
-//			$user->password = bcrypt($request->password);
 					$user->token = ApiUtil::generateToken();
 					$user->role_id = Role::ROLE_MOBILE_USER_ID;
 					$user->save();
@@ -84,6 +83,19 @@ class ApiController extends ApiBaseController
 
     public function getPartners(ApiBaseRequest $request){
     	$user = $request->user;
+		$subscriptions = DB::table('user_subscriptions')
+			->join('partners', 'user_subscriptions', '=', 'partners.id')
+			->join('users', 'users.id', '=', 'user_subscriptions.user_id')
+			->join('mobile_users', 'users.id', '=', 'mobile_users.user_id')
+			->leftJoin('account_company_orders', function ($join) use ($user) {
+				$join->on('account_company_orders.account_id', '=', 'mobile_users.account_id');
+			})
+			->selectRaw('SUM(account_company_orders.amount) as amount, partners.*')
+			->where('users.id', $user->id)
+			->groupBy('partners.id')
+			->get();
+
+		return $this->makeResponse(200, true, ['partners' => $subscriptions]);
 
     }
 
