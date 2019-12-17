@@ -28,7 +28,7 @@ abstract class WebBaseRequest extends FormRequest implements WithUser
 
     public abstract function injectedRules();
 
-    public function rules()
+    public function rules(): array
     {
         return $this->injectedRules();
     }
