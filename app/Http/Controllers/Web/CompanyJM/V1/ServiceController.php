@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Web\CompanyJM\V1;
 
 use App\AccountCompanyOrder;
+use App\AccountCompanyOrderStatus;
 use App\CompanyOrder;
 use App\Exceptions\WebServiceErroredException;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\WebBaseController;
 use App\Http\Requests\Web\CompanyJM\V1\ServiceControllerRequests\ServiceSendRequest;
 use App\Http\Requests\Web\CompanyJM\V1\ServiceControllerRequests\ServicesPurchaseRequest;
+use App\Http\Services\TransactionService;
 use App\ModerationStatus;
 use App\OrderStatus;
 use App\Partner;
@@ -59,11 +61,16 @@ class ServiceController extends WebBaseController
 			}else{
 				$usersService = new AccountCompanyOrder();
 				$usersService->amount = $request->amount;
-				$usersService->account_id = $user->mobileUser->acoount_id;
+				$usersService->account_id = $user->mobileUser->account_id;
 				$usersService->company_order_id = $companyOrder->id;
+				$usersService->account_company_order_status_id = AccountCompanyOrderStatus::STATUS_TRANSFERRED_ID;
 			}
 			$usersService->save();
+			$companyOrder->amount -= $request->amount;
+			$companyOrder->save();
+			TransactionService::SendTakonToUser($companyOrder, $user, $request->amount, $usersService);
 			DB::commit();
+
 			$this->makeToast('success', 'Вы успешно отправили пользователю таконы');
 			return redirect()->back();
 		}catch (\Exception $exception){

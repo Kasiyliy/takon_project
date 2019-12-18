@@ -7,13 +7,16 @@ use App\Code;
 use App\Exceptions\ApiServiceException;
 use App\Http\Controllers\ApiBaseController;
 use App\Http\Requests\Api\ApiBaseRequest;
+use App\Http\Requests\Api\ApiStandartRequest;
 use App\Http\Requests\Api\Auth\CheckCodeRequest;
 use App\Http\Requests\Api\Auth\LoginRequest;
 use App\Http\Utils\ApiUtil;
 use App\MobileUser;
 use App\Role;
 use App\User;
+
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Request;
 
 class ApiController extends ApiBaseController
 {
@@ -41,7 +44,7 @@ class ApiController extends ApiBaseController
 		$codeModel = Code::where('phone', $request->phone)->where('code', $request->code)->first();
 		if ($codeModel){
 
-			$user = User::where('phone', $request->phone)->first();
+			$user = User::where('phone_number', $request->phone)->first();
 			DB::beginTransaction();
 
 			try{
@@ -51,8 +54,8 @@ class ApiController extends ApiBaseController
 				}else{
 					$user = new User();
 					$user->username = $request->phone;
-					$user->phone_number = $user->phone;
-//			$user->password = bcrypt($request->password);
+					$user->phone_number = $request->phone;
+					$user->password = bcrypt($request->phone);
 					$user->token = ApiUtil::generateToken();
 					$user->role_id = Role::ROLE_MOBILE_USER_ID;
 					$user->save();
@@ -82,9 +85,16 @@ class ApiController extends ApiBaseController
 
 
 
-    public function getPartners(ApiBaseRequest $request){
-    	$user = $request->user;
+    public function getPartners(ApiStandartRequest $request){
+    	$user = User::where('token', $request->token)->first();
+	    $subscriptions = DB::table('user_subscriptions')
+		    ->join('partners', 'user_subscriptions.partner_id', '=', 'partners.id')
+		    ->where('user_subscriptions.user_id', $user->id)
+		    ->groupBy('partners.id')
+		    ->select('partners.*')
+		    ->get();
 
+	    return $this->makeResponse(200, true, ['partners' => $subscriptions]);
     }
 
 
