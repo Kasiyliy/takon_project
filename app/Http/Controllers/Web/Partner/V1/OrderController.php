@@ -39,7 +39,7 @@ class OrderController extends WebBaseController
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();
-            throw new WebServiceErroredException('Ошибка! Обратитесь к администратору!');
+            throw new WebServiceErroredException($exception->getMessage());
         }
         $this->makeToast('success', 'Вы приняли запрос на заказ на услугу!');
         return redirect()->back();

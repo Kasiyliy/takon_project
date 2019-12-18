@@ -7,10 +7,12 @@ use App\Cashier;
 use App\Exceptions\WebServiceErroredException;
 use App\Http\Controllers\WebBaseController;
 use App\Http\Requests\Web\Partner\V1\CashierControllerRequests\CashierStoreRequest;
+use App\Http\Utils\ApiUtil;
 use App\Role;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Psy\Util\Str;
 use Session;
 
 class CashierController extends WebBaseController
@@ -34,6 +36,16 @@ class CashierController extends WebBaseController
         return view('partner.cashiers.edit', compact('user'));
     }
 
+	public function cashiersQr($id)
+	{
+		$user = User::with('cashier')->where('role_id', Role::ROLE_CASHIER_ID)->find($id);
+		if (!$user) {
+			Session::flash('error', 'Пользователь не существует!');
+			return redirect()->back();
+		}
+		return view('partner.cashiers.qr', compact('user'));
+	}
+
     public function cashiersCreate()
     {
         return view('partner.cashiers.create');
@@ -48,6 +60,7 @@ class CashierController extends WebBaseController
             $user->phone_number = $user->username;
             $user->password = bcrypt($request->password);
             $user->role_id = Role::ROLE_CASHIER_ID;
+
             $user->save();
 
             $account = new Account();
@@ -59,6 +72,7 @@ class CashierController extends WebBaseController
             $cashier->user_id = $user->id;
             $cashier->partner_id = Auth::user()->partner->id;
             $cashier->name = $request->name;
+            $cashier->token_hash = ApiUtil::generateToken();
             $cashier->save();
 
             DB::commit();
@@ -70,4 +84,7 @@ class CashierController extends WebBaseController
             throw new WebServiceErroredException("Ошибка! Обратитесь пожалуйста к администратору сайта!");
         }
     }
+
+
+
 }

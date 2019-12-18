@@ -18,7 +18,7 @@ class TokenUserMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $user = User::where('token', $request->token)->first();
+        $user = User::with('mobileUser')->where('token', $request->token)->first();
         if (!$user) {
             return ResponseUtil::makeResponse(401, false, [
                 "errors" => [

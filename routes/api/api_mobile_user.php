@@ -13,6 +13,11 @@ Route::group(['namespace' => 'V1', 'prefix' => 'V1'], function () {
 	Route::group(['middleware' => 'token'], function () {
 
 		Route::post('/get-partners', ['as' => 'get.partners', 'uses' => 'ApiController@getPartners']);
+		Route::post('/get-services', ['as' => 'get.services', 'uses' => 'ApiController@getServices']);
+		Route::post('/get-services-info', ['as' => 'get.services', 'uses' => 'ApiController@getServiceInfo']);
+		Route::post('/get-all-partners', ['as' => 'get.all.partners', 'uses' => 'ApiController@getAllPartners']);
+		Route::post('/subscribe', ['as' => 'get.all.partners', 'uses' => 'ApiController@subscribe']);
+		Route::post('/remove-subscription', ['as' => 'get.all.partners', 'uses' => 'ApiController@removeSubscription']);
 
 	});
 });

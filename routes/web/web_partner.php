@@ -23,6 +23,7 @@ Route::group(['namespace' => 'V1', 'prefix' => 'partner'], function () {
 
 
     Route::get('/cashiers/edit/{id}', ['as' => 'partner.cashiers.edit', 'uses' => 'CashierController@cashiersEdit'])->where('id', '[0-9]+');
+    Route::get('/cashiers/qr/{id}', ['as' => 'user.cashiers.qr', 'uses' => 'CashierController@cashiersQr'])->where('id', '[0-9]+');
     Route::get('/cashiers/create', ['as' => 'partner.cashiers.create', 'uses' => 'CashierController@cashiersCreate']);
     Route::post('/cashiers/store', ['as' => 'partner.cashiers.store', 'uses' => 'CashierController@cashiersStore']);
     Route::get('/cashiers', ['as' => 'partner.cashiers', 'uses' => 'CashierController@cashiers']);

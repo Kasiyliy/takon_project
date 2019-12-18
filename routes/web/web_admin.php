@@ -40,6 +40,7 @@ Route::group(['namespace' => 'V1', 'prefix' => 'admin'], function () {
 
 
     Route::get('/users/cashiers/edit/{id}', ['as' => 'user.cashiers.edit', 'uses' => 'UserController@cashiersEdit'])->where('id', '[0-9]+');
+    Route::get('/users/cashiers/qr/{id}', ['as' => 'user.cashiers.edit', 'uses' => 'UserController@cashiersQr'])->where('id', '[0-9]+');
     Route::get('/users/cashiers/create', ['as' => 'user.cashiers.create', 'uses' => 'UserController@cashiersCreate']);
     Route::post('/users/cashiers/store', ['as' => 'user.cashiers.store', 'uses' => 'UserController@cashiersStore']);
     Route::get('/users/cashiers', ['as' => 'user.cashiers', 'uses' => 'UserController@cashiers']);

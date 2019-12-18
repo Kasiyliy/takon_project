@@ -69,7 +69,9 @@
                                             </div>
                                         </div>
                                         <a href="{{route('user.cashiers.edit' ,['id'=>$user->id ])}}"
-                                           class="btn-xs btn btn-primary">Изменить</a>
+                                           class="btn-xs btn btn-success">Изменить</a>
+                                        <a href="{{route('user.cashiers.qr' ,['id'=>$user->id ])}}"
+                                           class="btn-xs btn btn-primary">Распечатать QR код</a>
                                     </td>
                                 </tr>
                             @endforeach

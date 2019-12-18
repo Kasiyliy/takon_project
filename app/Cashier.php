@@ -13,7 +13,8 @@ class Cashier extends Model
         'latitude',
         'account_id',
         'user_id',
-        'partner_id'
+        'partner_id',
+	    'token_hash'
     ];
 
     public function account()
