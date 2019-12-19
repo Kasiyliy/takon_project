@@ -5,6 +5,9 @@
         <div class="row justify-content-center">
             <div class="col-sm-12">
                 <div class="panel" style="padding: 10px;">
+                    <div class="panel-heading">
+                        <a  class="btn btn-primary" href="{{route('company.services.orders')}}">Назад</a>
+                    </div>
                     <div class="panel-body">
                         <h2>Сервис: {{$companyOrder->service->name}}</h2>
                         <h3>В наличии: {{$companyOrder->amount}}</h3>
@@ -18,7 +21,7 @@
 
                         <div class="form-group">
                             <label for="phone">Номер телефона</label>
-                            <input type="number" name="phone" required class="form-control">
+                            <input type="text" name="phone" required class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="amount">Введите количество</label>

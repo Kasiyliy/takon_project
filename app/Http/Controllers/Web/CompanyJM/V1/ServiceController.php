@@ -48,6 +48,7 @@ class ServiceController extends WebBaseController
         if ($companyOrder->amount < $request->amount) {
             return redirect()->back()->with('error', 'Недостаточно Таконов');
         }
+
         $user = User::with('mobileUser')
             ->where('phone_number', $request->phone)
             ->first();
@@ -127,6 +128,7 @@ class ServiceController extends WebBaseController
             $companyOrder = new CompanyOrder();
             $companyOrder->service_id = $service->id;
             $companyOrder->amount = $request->amount;
+            $companyOrder->initial_amount = $companyOrder->amount;
             $companyOrder->company_id = $company->id;
             $companyOrder->order_status_id = OrderStatus::STATUS_WAITING_ID;
             $companyOrder->due_date = Carbon::now();
