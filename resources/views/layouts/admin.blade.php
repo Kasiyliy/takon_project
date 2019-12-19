@@ -191,7 +191,8 @@
                                 <a href="{{route('company.services')}}"><i class="fa fa-circle-o"></i>Просмотр услуг</a>
                             </li>
                             <li>
-                                <a href="{{route('company.services.orders')}}"><i class="fa fa-circle-o"></i>История заказов</a>
+                                <a href="{{route('company.orders.history')}}"><i class="fa fa-circle-o"></i>История
+                                    заказов</a>
                             </li>
                         </ul>
                     </li>

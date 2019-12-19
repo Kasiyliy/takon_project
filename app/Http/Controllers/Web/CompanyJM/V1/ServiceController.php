@@ -34,48 +34,51 @@ class ServiceController extends WebBaseController
         return view('company.services.index', compact('partners'));
     }
 
-    public function sendUsers($id){
-    	$companyOrder = CompanyOrder::with(['service'])
-		    ->find($id);
-    	return view('company.services.send-user', compact('companyOrder'));
+    public function sendUsers($id)
+    {
+        $companyOrder = CompanyOrder::with(['service'])
+            ->find($id);
+        return view('company.services.send-user', compact('companyOrder'));
     }
 
-    public function sendUsersStore(ServiceSendRequest $request){
-		$companyOrder = CompanyOrder::with('service')
-			->findOrFail($request->id);
-		if($companyOrder->amount < $request->amount){
-			return redirect()->back()->with('error', 'Недостаточно Таконов');
-		}
-		$user = User::with('mobileUser')
-			->where('phone_number', $request->phone)
-			->first();
-		if(!$user){
-			return redirect()->back()->with('error', 'Такого пользователя не существует');
-		}
-		try{
-			DB::beginTransaction();
-			$usersService = AccountCompanyOrder::where('company_order_id', $companyOrder->id)
-				->where('account_id', $user->mobileUser->account_id)->first();
-			if($usersService){
-				$usersService->amount += $request->amount;
-			}else{
-				$usersService = new AccountCompanyOrder();
-				$usersService->amount = $request->amount;
-				$usersService->account_id = $user->mobileUser->account_id;
-				$usersService->company_order_id = $companyOrder->id;
-				$usersService->account_company_order_status_id = AccountCompanyOrderStatus::STATUS_TRANSFERRED_ID;
-			}
-			$usersService->save();
-			$companyOrder->amount -= $request->amount;
-			$companyOrder->save();
-			TransactionService::SendTakonToUser($companyOrder, $user, $request->amount, $usersService);
-			DB::commit();
+    public function sendUsersStore(ServiceSendRequest $request)
+    {
+        $companyOrder = CompanyOrder::with('service')
+            ->findOrFail($request->id);
+        if ($companyOrder->amount < $request->amount) {
+            return redirect()->back()->with('error', 'Недостаточно Таконов');
+        }
 
-			$this->makeToast('success', 'Вы успешно отправили пользователю таконы');
-			return redirect()->back();
-		}catch (\Exception $exception){
-			throw new WebServiceErroredException($exception->getMessage());
-		}
+        $user = User::with('mobileUser')
+            ->where('phone_number', $request->phone)
+            ->first();
+        if (!$user) {
+            return redirect()->back()->with('error', 'Такого пользователя не существует');
+        }
+        try {
+            DB::beginTransaction();
+            $usersService = AccountCompanyOrder::where('company_order_id', $companyOrder->id)
+                ->where('account_id', $user->mobileUser->account_id)->first();
+            if ($usersService) {
+                $usersService->amount += $request->amount;
+            } else {
+                $usersService = new AccountCompanyOrder();
+                $usersService->amount = $request->amount;
+                $usersService->account_id = $user->mobileUser->account_id;
+                $usersService->company_order_id = $companyOrder->id;
+                $usersService->account_company_order_status_id = AccountCompanyOrderStatus::STATUS_TRANSFERRED_ID;
+            }
+            $usersService->save();
+            $companyOrder->amount -= $request->amount;
+            $companyOrder->save();
+            TransactionService::SendTakonToUser($companyOrder, $user, $request->amount, $usersService);
+            DB::commit();
+
+            $this->makeToast('success', 'Вы успешно отправили пользователю таконы');
+            return redirect()->back();
+        } catch (\Exception $exception) {
+            throw new WebServiceErroredException($exception->getMessage());
+        }
     }
 
     public function servicesDetails($id)
@@ -125,6 +128,7 @@ class ServiceController extends WebBaseController
             $companyOrder = new CompanyOrder();
             $companyOrder->service_id = $service->id;
             $companyOrder->amount = $request->amount;
+            $companyOrder->initial_amount = $companyOrder->amount;
             $companyOrder->company_id = $company->id;
             $companyOrder->order_status_id = OrderStatus::STATUS_WAITING_ID;
             $companyOrder->due_date = Carbon::now();
@@ -149,9 +153,24 @@ class ServiceController extends WebBaseController
             'service'
         ])
             ->where('company_orders.company_id', '=', $this->getCurrentUser()->company->id)
+            ->where('company_orders.order_status_id', '=', OrderStatus::STATUS_APPROVED_ID)
             ->orderBy('company_orders.created_at', 'desc')
             ->paginate(9);
 
         return view('company.services.orders', compact('companyOrders'));
+    }
+
+    public function servicesOrderHistory()
+    {
+        $companyOrders = CompanyOrder::with([
+            'orderStatus',
+            'company',
+            'service'
+        ])
+            ->where('company_orders.company_id', '=', $this->getCurrentUser()->company->id)
+            ->orderBy('company_orders.created_at', 'desc')
+            ->paginate(9);
+
+        return view('company.services.history', compact('companyOrders'));
     }
 }

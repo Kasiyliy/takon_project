@@ -14,9 +14,9 @@
                 <div class="col-sm-4">
                     <div class="panel
                         @if($companyOrder->orderStatus->id == \App\OrderStatus::STATUS_WAITING_ID)
-                    {{"bg-info"}}
-                    @elseif($companyOrder->orderStatus->id == \App\OrderStatus::STATUS_APPROVED_ID)
                     {{"bg-blue"}}
+                    @elseif($companyOrder->orderStatus->id == \App\OrderStatus::STATUS_APPROVED_ID)
+                    {{"bg-info"}}
                     @elseif($companyOrder->orderStatus->id == \App\OrderStatus::STATUS_REJECTED_ID)
                     {{"bg-red"}}
                     @endif
@@ -25,14 +25,20 @@
                             <h2>{{$companyOrder->service->name}}</h2>
                         </div>
                         <div class="panel-body">
+
+                            @if($companyOrder->service && $companyOrder->service->partner)
+                                <p>
+                                    Партнер: {{$companyOrder->service->partner->name}}
+                                </p>
+                            @endif
                             <p>
                                 Цена за единицу на момент покупки: {{$companyOrder->actual_service_price}} таконов
                             </p>
                             <p>
-                                Количество оставшихся единиц: {{$companyOrder->amount}}
+                                Количество купленных единиц: {{$companyOrder->initial_amount}}
                             </p>
                             <p>
-                                Количество купленных единиц: {{$companyOrder->initial_amount}}
+                                Количество оставшихся единиц: {{$companyOrder->amount}}
                             </p>
                             <p>
                                 Сумма
@@ -41,11 +47,9 @@
                             </p>
                         </div>
                         <div class="panel-footer">
-
-                            <a href="{{ route('company.services.send-user', $companyOrder->id) }}">
-                                <button class="btn-success btn">Отправить пользователю</button>
-                            </a>
-
+                            <p class="text-primary">
+                                Статус: {{$companyOrder->orderStatus->name}}
+                            </p>
                         </div>
                     </div>
                 </div>
