@@ -25,15 +25,24 @@
                             <h2>{{$companyOrder->service->name}}</h2>
                         </div>
                         <div class="panel-body">
+
+                            @if($companyOrder->service && $companyOrder->service->partner)
+                                <p>
+                                    Партнер: {{$companyOrder->service->partner->name}}
+                                </p>
+                            @endif
                             <p>
                                 Цена за единицу на момент покупки: {{$companyOrder->actual_service_price}} таконов
                             </p>
                             <p>
-                                Количество купленных единиц: {{$companyOrder->amount}}
+                                Количество купленных единиц: {{$companyOrder->initial_amount}}
+                            </p>
+                            <p>
+                                Количество оставшихся единиц: {{$companyOrder->amount}}
                             </p>
                             <p>
                                 Сумма
-                                покупки: {{$companyOrder->formatNumber($companyOrder->amount * $companyOrder->actual_service_price)}}
+                                покупки: {{$companyOrder->formatNumber($companyOrder->initial_amount * $companyOrder->actual_service_price)}}
                                 таконов
                             </p>
                         </div>

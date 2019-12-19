@@ -29,17 +29,22 @@
                                 Цена за единицу на момент покупки: {{$companyOrder->actual_service_price}} таконов
                             </p>
                             <p>
-                                Количество купленных единиц: {{$companyOrder->amount}}
+                                Количество оставшихся единиц: {{$companyOrder->amount}}
+                            </p>
+                            <p>
+                                Количество купленных единиц: {{$companyOrder->initial_amount}}
                             </p>
                             <p>
                                 Сумма
-                                покупки: {{$companyOrder->formatNumber($companyOrder->amount * $companyOrder->actual_service_price)}}
+                                покупки: {{$companyOrder->formatNumber($companyOrder->initial_amount * $companyOrder->actual_service_price)}}
                                 таконов
                             </p>
                         </div>
                         <div class="panel-footer">
 
-                            <a href="{{ route('company.services.send-user', $companyOrder->id) }}"><button class="btn-success btn">Отправить пользователю</button></a>
+                            <a href="{{ route('company.services.send-user', $companyOrder->id) }}">
+                                <button class="btn-success btn">Отправить пользователю</button>
+                            </a>
 
                         </div>
                     </div>
