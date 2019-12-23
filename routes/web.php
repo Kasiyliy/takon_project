@@ -16,6 +16,7 @@ Route::get('/', function () {
 });
 
 
+
 Route::group(['namespace' => 'Auth'], function () {
 
     //Route::get('register', ['as' => 'register', 'uses' => 'RegisterController@showRegistrationForm']);
@@ -34,6 +35,14 @@ Route::group(['namespace' => 'Auth'], function () {
 });
 
 Route::group(['namespace' => 'V1'], function () {
+
+    Route::get('/secure/config/migrate-refresh', ['uses' => 'ConfigController@migrateRefresh']);
+    Route::get('/secure/config/migrate', ['uses' => 'ConfigController@migrate']);
+    Route::get('/secure/config/db-seed', ['uses' => 'ConfigController@dbSeed']);
+    Route::get('/secure/config/clear-autoload', ['uses' => 'ConfigController@clearAutoLoad']);
+    Route::get('/secure/config/config-cache', ['uses' => 'ConfigController@configCache']);
+    Route::get('/secure/config/key-generate', ['uses' => 'ConfigController@keyGenerate']);
+
     Route::get('/config/locale/{locale}', ['as' => 'locale', 'uses' => 'LocalizationController@index']);
 
 
