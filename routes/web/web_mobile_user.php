@@ -9,5 +9,6 @@
 
 Route::group(['namespace' => 'V1', 'prefix' => 'mobile-user'], function () {
 
+    Route::get('/account/company/orders', ['as' => 'mobileUser.account.company.order', 'uses' => 'CompanyOrderController@index']);
 
 });

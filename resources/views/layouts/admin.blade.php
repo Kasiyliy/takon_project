@@ -246,6 +246,12 @@
                     </li>
                 @elseif(\Illuminate\Support\Facades\Auth::user()->isMobileUser())
                     <li class="header">Мобильный пользователь</li>
+                    <li>
+                        <a href="{{route('mobileUser.account.company.order')}}">
+                            <i class="fa fa-shopping-bag"></i>
+                            <span>Мои сервисы</span>
+                        </a>
+                    </li>
                 @elseif(\Illuminate\Support\Facades\Auth::user()->isCashier())
                     <li class="header">Продавец</li>
                 @endif
