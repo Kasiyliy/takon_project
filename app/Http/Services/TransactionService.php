@@ -5,6 +5,7 @@ namespace App\Http\Services;
 
 
 use App\AccountCompanyOrder;
+use App\Cashier;
 use App\Company;
 use App\CompanyOrder;
 use App\Exceptions\ApiServiceException;
@@ -15,6 +16,7 @@ use App\TransactionNode;
 use App\TransactionType;
 use App\User;
 use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\Types\Integer;
 
 class TransactionService
 {
@@ -62,7 +64,7 @@ class TransactionService
 	}
 
 
-	public static function SendTakonToFriend(AccountCompanyOrder $accountCompanyOrder, User $user, $amount, AccountCompanyOrder $reciverAccount){
+	public static function SendTakonToFriend(AccountCompanyOrder $accountCompanyOrder, $amount, AccountCompanyOrder $reciverAccount){
 		try{
 			DB::beginTransaction();
 			$transaction = new Transaction();
@@ -86,6 +88,39 @@ class TransactionService
 			$transactionLog->start_balance = $reciverAccount->amount - $amount;
 			$transactionLog->final_balance = $reciverAccount->amount;
 			$transactionLog->save();
+
+			// TODO:  Асыл, я хз зачем эта моделька и как она работает
+			$transactionNode = new TransactionNode();
+			$transactionNode->transaction_id = $transaction->id;
+			$transactionNode->amount = $amount;
+			$transactionNode->account_company_order_id = $accountCompanyOrder->id;
+			$transactionNode->save();
+
+			DB::commit();
+		}catch (\Exception $exception){
+			DB::rollBack();
+			throw new ApiServiceException(200, false, ['errors' => $exception->getMessage()]);
+		}
+	}
+
+
+	public static function Pay(AccountCompanyOrder $accountCompanyOrder, Cashier $cashier, Integer $amount){
+		try{
+			DB::beginTransaction();
+			$transaction = new Transaction();
+			$transaction->transaction_type_id = TransactionType::TYPE_PURCHASE_ID;
+			$transaction->sender_account_id = $accountCompanyOrder->account_id;
+			$transaction->receiver_account_id = $cashier->account_id;
+			$transaction->save();
+
+			$transactionLog = new TransactionLog();
+			$transactionLog->transaction_id = $transaction->id;
+			$transactionLog->account_id = $accountCompanyOrder->account_id;
+			$transactionLog->is_sender = true;
+			$transactionLog->start_balance = $accountCompanyOrder->amount - $amount;
+			$transactionLog->final_balance = $accountCompanyOrder->amount;
+			$transactionLog->save();
+
 
 			// TODO:  Асыл, я хз зачем эта моделька и как она работает
 			$transactionNode = new TransactionNode();

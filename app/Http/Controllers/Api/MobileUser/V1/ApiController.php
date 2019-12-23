@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\MobileUser\V1;
 
 use App\Account;
 use App\AccountCompanyOrder;
+use App\AccountCompanyOrderStatus;
 use App\Cashier;
 use App\Code;
 use App\Exceptions\ApiServiceException;
@@ -14,6 +15,8 @@ use App\Http\Requests\Api\Auth\CheckCodeRequest;
 use App\Http\Requests\Api\Auth\LoginRequest;
 use App\Http\Requests\Api\MobileUser\GetServiceInfoRequest;
 use App\Http\Requests\Api\MobileUser\GetServicesRequest;
+use App\Http\Requests\Api\MobileUser\PayRequest;
+use App\Http\Requests\Api\MobileUser\QRGenerateRequest;
 use App\Http\Requests\Api\MobileUser\QRScanRequest;
 use App\Http\Requests\Api\MobileUser\SendFriendRequest;
 use App\Http\Services\TransactionService;
@@ -21,6 +24,7 @@ use App\Http\Utils\ApiUtil;
 use App\MobileUser;
 use App\ModerationStatus;
 use App\Partner;
+use App\QrCode;
 use App\Role;
 use App\Service;
 use App\User;
@@ -28,6 +32,7 @@ use App\User;
 use App\UserSubscription;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Str;
 
 class ApiController extends ApiBaseController
 {
@@ -239,7 +244,7 @@ class ApiController extends ApiBaseController
 				$recieversService->account_company_order_status_id = $userService->account_company_order_status_id;
 			}
 			$recieversService->save();
-			TransactionService::SendTakonToUser($userService, $user, $request->amount, $recieversService);
+			TransactionService::SendTakonToFriend($userService, $request->amount, $recieversService);
 			DB::commit();
 			return $this->makeResponse(200, true, []);
 
@@ -252,8 +257,18 @@ class ApiController extends ApiBaseController
 
     }
 
-    public function generateQr(){
+    public function generateQr(QRGenerateRequest $request){
 
+    	$aco = AccountCompanyOrder::where('id', $request->id)->first();
+    	if($aco->account_id != $this->getCurrentUser()->mobileUser->account_id){
+    		return $this->makeResponse(200, false, ['incorrect id']);
+	    }
+    	$qrCode = new QrCode();
+    	$qrCode->token_hash = Str::random(65);
+    	$qrCode->account_company_order_id = $request->id;
+    	$qrCode->amount = $request->amount;
+    	$qrCode->save();
+		return $this->makeResponse(200, true, []);
     }
 
 	public function scan(QRScanRequest $request){
@@ -261,6 +276,49 @@ class ApiController extends ApiBaseController
     	if($cashier){
 		    $partner = Partner::where('id', $cashier->partner_id)->first();
 		    return $this->makeResponse(200, true, ['partner_id' => $partner->id, 'partner_name' => $partner->name, 'user_id' => $cashier->id, 'partner' => $partner]);
+	    }else{
+    		$qrModel = QrCode::with('accountCompanyOrder')->where('token_hash', $request->qrstring)->first();
+    		if($this->getCurrentUser()->isMobileUser()){
+    			try{
+				    DB::beginTransaction();
+				    $aco = AccountCompanyOrder::where('company_order_id', $qrModel->accountCompanyOrder->id)
+					    ->where('account_id', $this->getCurrentUser()->mobileUser->account_id)->first();
+				    if($aco){
+					    $aco->amount += $qrModel->amount;
+				    }else{
+					    $aco = new AccountCompanyOrder();
+					    $aco->amount = $qrModel->amount;
+					    $aco->account_id = $this->getCurrentUser()->mobileUser->account_id;
+					    $aco->company_order_id = $qrModel->accountCompanyOrder->company_order_id;
+					    $aco->account_company_order_status_id = AccountCompanyOrderStatus::STATUS_TRANSFERRED_ID;
+				    }
+				    $aco->save();
+				    TransactionService::SendTakonToFriend($qrModel->accountCompanyOrder, $qrModel->amount, $aco);
+				    DB::commit();
+				    return $this->makeResponse(200 ,true, []);
+			    }catch (\Exception $exception){
+    				DB::rollBack();
+    				throw new ApiServiceException(200, false, ['error' => $exception->getMessage()]);
+			    }
+
+		    }
+	    }
+
+	}
+
+	public function pay(PayRequest $request){
+    	DB::beginTransaction();
+    	try{
+		    $aco = AccountCompanyOrder::where('id', $request->id)->first();
+		    $cashier = Cashier::where('id', $request->user_id)->first();
+		    if($aco->amount < $request->amount ){
+			    return $this->makeResponse(200, false, ['error' => $cashier]);
+		    }
+		    $aco->amount -= $request->amount;
+		    $aco->save();
+		    TransactionService::Pay($aco, $cashier, $request->amount);
+	    }catch (\Exception $exception){
+    		throw new ApiServiceException(200, false, ['errors' => $exception->getMessage()]);
 	    }
 
 	}
