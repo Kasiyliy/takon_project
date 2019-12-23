@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Web\Admin\V1\Requests;
+namespace App\Http\Requests\Web\Admin\V1\UserControllerRequests;
 
 use App\Http\Requests\Web\WebBaseRequest;
 
