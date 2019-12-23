@@ -26,7 +26,7 @@ class AddHashTokenToQrCodes extends Migration
     public function down()
     {
         Schema::table('qr_codes', function (Blueprint $table) {
-            //
+            $table->dropColumn('token_hash');
         });
     }
 }

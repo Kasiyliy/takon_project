@@ -13,10 +13,10 @@ class ChangeMobileUsersTable extends Migration
      */
     public function up()
     {
-	    Schema::table('mobile_users', function (Blueprint $table) {
-		    $table->string('first_name')->nullable()->change();
-		    $table->string('last_name')->nullable()->change();
-	    });
+        Schema::table('mobile_users', function (Blueprint $table) {
+            $table->string('first_name')->nullable()->change();
+            $table->string('last_name')->nullable()->change();
+        });
     }
 
     /**
@@ -26,6 +26,9 @@ class ChangeMobileUsersTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('mobile_users', function (Blueprint $table) {
+            $table->dropColumn('first_name');
+            $table->dropColumn('last_name');
+        });
     }
 }

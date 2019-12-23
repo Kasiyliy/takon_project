@@ -26,7 +26,7 @@ class AddHashToCashiers extends Migration
     public function down()
     {
         Schema::table('cashiers', function (Blueprint $table) {
-            //
+            $table->dropColumn('token_hash')->nullable();
         });
     }
 }
