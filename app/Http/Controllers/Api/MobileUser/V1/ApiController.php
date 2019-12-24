@@ -102,7 +102,7 @@ class ApiController extends ApiBaseController
 		$subscriptions = DB::table('user_subscriptions')
 			->join('partners', 'user_subscriptions.partner_id', '=', 'partners.id')
 			->where('user_subscriptions.user_id', $user->id)
-			->groupBy('partners.id')
+//			->groupBy('partners.id')
 			->select('partners.*')
 			->get();
 
