@@ -123,7 +123,20 @@ class ApiController extends ApiBaseController
 			->where('services.partner_id', $request->partner_id)
 			->where('services.moderation_status_id', ModerationStatus::MODERATION_STATUS_APPROVED_ID)
 			->selectRaw('services.*, SUM(IFNULL(aco.amount, 0)) as usersAmount')
-			->groupBy('services.id')
+			->groupBy([
+				"services.id",
+				"services.name",
+				"services.price",
+				"services.expiration_days",
+				"services.partner_id",
+				"services.service_status_id",
+				"services.deleted_at",
+				"services.created_at",
+				"services.updated_at",
+				"services.online_payment_enabled",
+				"services.online_payment_price",
+				"services.moderation_status_id",
+			])
 			->get();
 
 		return $this->makeResponse(200, true, ['services' => $data]);
