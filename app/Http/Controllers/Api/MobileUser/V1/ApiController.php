@@ -116,7 +116,6 @@ class ApiController extends ApiBaseController
 		$data = DB::table('services')
 			->leftJoin('company_orders as co', 'services.id', '=', 'co.service_id')
 			->leftJoin('account_company_orders as aco', 'co.id', '=', 'aco.company_order_id')
-//		    ->leftJoin('accounts as a', 'aco.account_id', '=' , 'a.id')
 			->leftJoin('accounts as a', function ($leftJoin) use ($request) {
 				$leftJoin->on('a.id', '=', 'aco.account_id')
 					->where('a.id', $this->getCurrentUser()->mobileUser->account_id);
@@ -124,23 +123,10 @@ class ApiController extends ApiBaseController
 			->where('services.partner_id', $request->partner_id)
 			->where('services.moderation_status_id', ModerationStatus::MODERATION_STATUS_APPROVED_ID)
 			->selectRaw('services.*, SUM(IFNULL(aco.amount, 0)) as usersAmount')
-//			->groupBy('services.id')
+			->groupBy('services.id')
 			->get();
 
 		return $this->makeResponse(200, true, ['services' => $data]);
-
-		/*
-		 *
-			SELECT  services.name, SUM(aco.amount)
-			from services
-			left join company_orders co on services.id = co.service_id
-			left join account_company_orders aco on co.id = aco.company_order_id
-			left join accounts a on aco.account_id = a.id
-			where partner_id = 1 and a.id = 4
-			group by services.id;
-
-		*/
-
 	}
 
 	public function getAllPartners()
