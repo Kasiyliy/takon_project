@@ -18,6 +18,9 @@ Route::group(['namespace' => 'V1', 'prefix' => 'V1'], function () {
 		Route::post('/get-all-partners', ['as' => 'get.all.partners', 'uses' => 'ApiController@getAllPartners']);
 		Route::post('/subscribe', ['as' => 'get.all.partners', 'uses' => 'ApiController@subscribe']);
 		Route::post('/remove-subscription', ['as' => 'get.all.partners', 'uses' => 'ApiController@removeSubscription']);
+		Route::post('/qrscan', ['as' => 'qrscan', 'uses' => 'ApiController@scan']);
+		Route::post('/pay', ['as' => 'pay', 'uses' => 'ApiController@pay']);
+		Route::post('/generateQr', ['as' => 'generateQr', 'uses' => 'ApiController@generate-qr']);
 
 	});
 });
