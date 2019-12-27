@@ -270,7 +270,7 @@ class ApiController extends ApiBaseController
 		$qrCode->account_company_order_id = $request->id;
 		$qrCode->amount = $request->amount;
 		$qrCode->save();
-		return $this->makeResponse(200, true, []);
+		return $this->makeResponse(200, true, ['msg' => $qrCode->token_hash]);
 	}
 
 	public function scan(QRScanRequest $request)
