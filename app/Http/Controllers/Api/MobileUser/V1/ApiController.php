@@ -201,7 +201,7 @@ class ApiController extends ApiBaseController
 			->where('s.id', $request->service_id)
 			->where('account_company_orders.account_id', $this->getCurrentUser()->mobileUser->account_id)
 			->selectRaw('account_company_orders.id, account_company_orders.amount, s.name, c.name, co.due_date')
-			->groupBy('account_company_orders.id')
+//			->groupBy('account_company_orders.id')
 			->get();
 
 		return $this->makeResponse(200, true, ['data' => $data]);
