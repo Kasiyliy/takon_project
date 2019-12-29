@@ -22,6 +22,7 @@ Route::group(['namespace' => 'V1', 'prefix' => 'V1'], function () {
 		Route::post('/pay', ['as' => 'pay', 'uses' => 'ApiController@pay']);
 		Route::post('/generate-qr', ['as' => 'generateQr', 'uses' => 'ApiController@generateQr']);
 		Route::post('/send-friend', ['as' => 'sendFriend', 'uses' => 'ApiController@sendFriend']);
+		Route::post('/get-history', ['as' => 'getHistory', 'uses' => 'ApiController@getHistory']);
 
 	});
 });

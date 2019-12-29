@@ -338,4 +338,54 @@ class ApiController extends ApiBaseController
 
 	}
 
+	public function getHistory(){
+		$account_id = $this->getCurrentUser()->mobileUser->account_id;
+		$data = DB::table('transactions')
+			->join('transaction_types as tt', 'tt.id', '=', 'transactions.transaction_type_id')
+			->join('transaction_nodes as tn', 'tn.transaction_id', '=', 'transactions.id')
+			->join('account_company_orders', 'account_company_orders.id', '=', 'tn.account_company_order_id')
+			->join('company_orders', 'company_orders.id', '=', 'account_company_orders.company_order_id')
+			->join('services', 'services.id', '=', 'account_company_orders.company_order_id')
+			->join('partners', 'partners.id', '=', 'services.partner_id')
+			->leftJoin('accounts as a_reciever', 'a_reciever.id', '=', 'transactions.receiver_account_id')
+			->leftJoin('companies as c_reciever', 'c_reciever.account_id', '=', 'a_reciever.id')
+			->leftJoin('mobile_users as mu_reciever', 'mu_reciever.account_id', '=', 'a_reciever.id')
+			->leftJoin('users as u_reviever', 'u_reviever.id', '=', 'mu_reciever.user_id')
+			->leftJoin('cashiers as cas_reciever', 'cas_reciever.account_id', '=', 'a_reciever.id')
+			->leftJoin('accounts as a_sender', 'a_sender.id', '=', 'transactions.sender_account_id')
+			->leftJoin('companies as c_sender', 'c_sender.account_id', '=', 'a_sender.id')
+			->leftJoin('mobile_users as mu_sender', 'mu_sender.account_id', '=', 'a_sender.id')
+			->leftJoin('users as u_sender', 'u_sender.id', '=', 'mu_sender.user_id')
+			->where('transactions.receiver_account_id', $account_id)
+			->orWhere('transactions.sender_account_id', $account_id)
+			->select('services.name as service', 'c_reciever.name as company_reciever', 'c_sender.name as company_sender', 'u_reviever.phone_number as user_reciever',
+				'u_sender.phone_number as user_sender', 'partners.name as company', 'tn.amount', 'transactions.created_at')
+			->get();
+
+		$result = [];
+		foreach ($data as $datum){
+			$res = [];
+			if($datum->company_reciever){
+				$res['contragent'] = $datum->company_reciever;
+			}elseif ($datum->company_sender){
+				$res['contragent'] = $datum->company_sender;
+			}else{
+				if($datum->user_sender == $this->getCurrentUser()->phone_number){
+					$res['contragent'] = $datum->user_reciever;
+				}else{
+					$res['contragent'] = $datum->user_sender;
+
+				}
+			}
+			$res['amount'] = $datum->amount;
+			$res['service'] = $datum->service;
+			$res['company'] = $datum->company;
+			$res['date'] = $datum->created_at;
+			array_push($result, $res);
+		}
+		return $this->makeResponse(200, true, ['info' => $result]);
+
+
+	}
+
 }
