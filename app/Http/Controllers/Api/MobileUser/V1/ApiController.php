@@ -246,6 +246,8 @@ class ApiController extends ApiBaseController
 				$recieversService->account_company_order_status_id = $userService->account_company_order_status_id;
 			}
 			$recieversService->save();
+			$userService->amount -= $request->amount;
+			$userService->save();
 			TransactionService::SendTakonToFriend($userService, $request->amount, $recieversService);
 			DB::commit();
 			return $this->makeResponse(200, true, []);
@@ -263,8 +265,12 @@ class ApiController extends ApiBaseController
 
 		$aco = AccountCompanyOrder::where('id', $request->id)->first();
 		if ($aco->account_id != $this->getCurrentUser()->mobileUser->account_id) {
-			return $this->makeResponse(200, false, ['incorrect id']);
+			return $this->makeResponse(200, false, ['error' => 'incorrect id']);
 		}
+		if($aco->amount < $request->amount){
+			return $this->makeResponse(200, false, ['error' => 'Недостаточно таконов']);
+		}
+
 		$qrCode = new QrCode();
 		$qrCode->token_hash = Str::random(65);
 		$qrCode->account_company_order_id = $request->id;
@@ -283,6 +289,9 @@ class ApiController extends ApiBaseController
 			$qrModel = QrCode::with('accountCompanyOrder')->where('token_hash', $request->qrstring)->first();
 			if ($this->getCurrentUser()->isMobileUser()) {
 				try {
+					if($qrModel->accountCompanyOrder->amount < $qrModel->amount){
+						return $this->makeResponse(200, false, ['error' => 'Недостаточно таконов']);
+					}
 					DB::beginTransaction();
 					$aco = AccountCompanyOrder::where('company_order_id', $qrModel->accountCompanyOrder->id)
 						->where('account_id', $this->getCurrentUser()->mobileUser->account_id)->first();
@@ -295,6 +304,8 @@ class ApiController extends ApiBaseController
 						$aco->company_order_id = $qrModel->accountCompanyOrder->company_order_id;
 						$aco->account_company_order_status_id = AccountCompanyOrderStatus::STATUS_TRANSFERRED_ID;
 					}
+					$qrModel->accountCompanyOrder->amount -= $qrModel->amount;
+					$qrModel->save();
 					$aco->save();
 					TransactionService::SendTakonToFriend($qrModel->accountCompanyOrder, $qrModel->amount, $aco);
 					DB::commit();
