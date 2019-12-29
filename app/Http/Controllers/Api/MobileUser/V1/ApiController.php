@@ -365,6 +365,7 @@ class ApiController extends ApiBaseController
 		$result = [];
 		foreach ($data as $datum){
 			$res = [];
+			$res['amount'] = $datum->amount;
 			if($datum->company_reciever){
 				$res['contragent'] = $datum->company_reciever;
 			}elseif ($datum->company_sender){
@@ -372,12 +373,13 @@ class ApiController extends ApiBaseController
 			}else{
 				if($datum->user_sender == $this->getCurrentUser()->phone_number){
 					$res['contragent'] = $datum->user_reciever;
+					$res['amount'] *= -1.0;
 				}else{
 					$res['contragent'] = $datum->user_sender;
 
 				}
 			}
-			$res['amount'] = $datum->amount;
+
 			$res['service'] = $datum->service;
 			$res['company'] = $datum->company;
 			$res['date'] = $datum->created_at;
