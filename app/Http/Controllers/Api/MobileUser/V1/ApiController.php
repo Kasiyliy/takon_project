@@ -116,13 +116,21 @@ class ApiController extends ApiBaseController
 		$data = DB::table('services')
 			->leftJoin('company_orders as co', 'services.id', '=', 'co.service_id')
 			->leftJoin('account_company_orders as aco', 'co.id', '=', 'aco.company_order_id')
-			->leftJoin('accounts as a', function ($leftJoin) use ($request) {
+			->leftJoin('accounts as a', function ($leftJoin) {
 				$leftJoin->on('a.id', '=', 'aco.account_id')
 					->where('a.id', $this->getCurrentUser()->mobileUser->account_id);
 			})
 			->where('services.partner_id', $request->partner_id)
 			->where('services.moderation_status_id', ModerationStatus::MODERATION_STATUS_APPROVED_ID)
-			->selectRaw('services.*, SUM(IFNULL(aco.amount, 0)) as usersAmount')
+			->selectRaw('services.*, SUM(
+               case
+                   when aco.account_id = a.id
+                       then
+                       IFNULL(aco.amount, 0)
+                   else
+                       0
+                   end
+           )  as usersAmount')
 			->groupBy([
 				"services.id",
 				"services.name",
@@ -138,6 +146,7 @@ class ApiController extends ApiBaseController
 				"services.moderation_status_id",
 			])
 			->get();
+
 
 		return $this->makeResponse(200, true, ['services' => $data]);
 	}
@@ -267,7 +276,7 @@ class ApiController extends ApiBaseController
 		if ($aco->account_id != $this->getCurrentUser()->mobileUser->account_id) {
 			return $this->makeResponse(200, false, ['error' => 'incorrect id']);
 		}
-		if($aco->amount < $request->amount){
+		if ($aco->amount < $request->amount) {
 			return $this->makeResponse(200, false, ['error' => 'Недостаточно таконов']);
 		}
 
@@ -289,7 +298,7 @@ class ApiController extends ApiBaseController
 			$qrModel = QrCode::with('accountCompanyOrder')->where('token_hash', $request->qrstring)->first();
 			if ($this->getCurrentUser()->isMobileUser()) {
 				try {
-					if($qrModel->accountCompanyOrder->amount < $qrModel->amount){
+					if ($qrModel->accountCompanyOrder->amount < $qrModel->amount) {
 						return $this->makeResponse(200, false, ['error' => 'Недостаточно таконов']);
 					}
 					DB::beginTransaction();
@@ -338,7 +347,8 @@ class ApiController extends ApiBaseController
 
 	}
 
-	public function getHistory(){
+	public function getHistory()
+	{
 		$account_id = $this->getCurrentUser()->mobileUser->account_id;
 		$data = DB::table('transactions')
 			->join('transaction_types as tt', 'tt.id', '=', 'transactions.transaction_type_id')
@@ -363,18 +373,18 @@ class ApiController extends ApiBaseController
 			->get();
 
 		$result = [];
-		foreach ($data as $datum){
+		foreach ($data as $datum) {
 			$res = [];
 			$res['amount'] = $datum->amount;
-			if($datum->company_reciever){
+			if ($datum->company_reciever) {
 				$res['contragent'] = $datum->company_reciever;
-			}elseif ($datum->company_sender){
+			} elseif ($datum->company_sender) {
 				$res['contragent'] = $datum->company_sender;
-			}else{
-				if($datum->user_sender == $this->getCurrentUser()->phone_number){
+			} else {
+				if ($datum->user_sender == $this->getCurrentUser()->phone_number) {
 					$res['contragent'] = $datum->user_reciever;
 					$res['amount'] *= -1.0;
-				}else{
+				} else {
 					$res['contragent'] = $datum->user_sender;
 
 				}
