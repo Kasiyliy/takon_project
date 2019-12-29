@@ -305,7 +305,7 @@ class ApiController extends ApiBaseController
 						$aco->account_company_order_status_id = AccountCompanyOrderStatus::STATUS_TRANSFERRED_ID;
 					}
 					$qrModel->accountCompanyOrder->amount -= $qrModel->amount;
-					$qrModel->save();
+					$qrModel->accountCompanyOrder->save();
 					$aco->save();
 					TransactionService::SendTakonToFriend($qrModel->accountCompanyOrder, $qrModel->amount, $aco);
 					DB::commit();
