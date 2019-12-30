@@ -434,4 +434,28 @@ class ApiController extends ApiBaseController
 		return $this->makeResponse(200, true, ['data' => $data]);
 	}
 
+	public function scanCashier(QRScanRequest $request){
+
+		$qrModel = QrCode::with('accountCompanyOrder')->where('token_hash', $request->qrstring)->first();
+		if ($this->getCurrentUser()->isCashier()) {
+			try {
+				if ($qrModel->accountCompanyOrder->amount < $qrModel->amount) {
+					return $this->makeResponse(200, false, ['error' => 'Недостаточно таконов']);
+				}
+				DB::beginTransaction();
+
+				$qrModel->accountCompanyOrder->amount -= $qrModel->amount;
+				$qrModel->accountCompanyOrder->save();
+				$qrModel->delete();
+				TransactionService::Pay($qrModel->accountCompanyOrder, $this->getCurrentUser()->cashier, $qrModel->amount);
+				DB::commit();
+				return $this->makeResponse(200, true, []);
+			} catch (\Exception $exception) {
+				DB::rollBack();
+				throw new ApiServiceException(200, false, ['error' => $exception->getMessage()]);
+			}
+
+		}
+	}
+
 }

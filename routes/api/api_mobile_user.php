@@ -25,6 +25,7 @@ Route::group(['namespace' => 'V1', 'prefix' => 'V1'], function () {
 		Route::post('/send-friend', ['as' => 'sendFriend', 'uses' => 'ApiController@sendFriend']);
 		Route::post('/get-history', ['as' => 'getHistory', 'uses' => 'ApiController@getHistory']);
 		Route::post('/get-archive', ['as' => 'getCashiersHistory', 'uses' => 'ApiController@getCashiersHistory']);
+		Route::post('/scan-cashier', ['as' => 'scanCashier', 'uses' => 'ApiController@scanCashier']);
 
 	});
 });
