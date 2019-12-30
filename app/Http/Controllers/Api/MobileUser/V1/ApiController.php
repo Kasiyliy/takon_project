@@ -17,6 +17,7 @@ use App\Http\Requests\Api\MobileUser\PayRequest;
 use App\Http\Requests\Api\MobileUser\QRGenerateRequest;
 use App\Http\Requests\Api\MobileUser\QRScanRequest;
 use App\Http\Requests\Api\MobileUser\SendFriendRequest;
+use App\Http\Requests\LoginCashierRequest;
 use App\Http\Services\TransactionService;
 use App\Http\Utils\ApiUtil;
 use App\MobileUser;
@@ -240,9 +241,8 @@ class ApiController extends ApiBaseController
 			return $this->makeResponse(200, false, ['error' => 'Пользователь не найден']);
 		}
 
+		DB::beginTransaction();
 		try {
-
-			DB::beginTransaction();
 			$recieversService = AccountCompanyOrder::where('company_order_id', $userService->company_order_id)
 				->where('account_id', $user->mobileUser->account_id)->first();
 			if ($recieversService) {
@@ -398,6 +398,31 @@ class ApiController extends ApiBaseController
 		return $this->makeResponse(200, true, ['info' => $result]);
 
 
+	}
+
+
+	public function loginCashier(LoginCashierRequest $request){
+		$user = User::where('username', $request->login)
+			->where('password', md5($request->password))
+			->first();
+		return $this->makeResponse(200, true, ['token' => $user->token]);
+	}
+
+	public function getCashiersHistory(){
+		$account_id = $this->getCurrentUser()->mobileUser->account_id;
+		$data = DB::table('transactions')
+			->leftJoin('accounts', 'accounts.id', '=', 'transactions.sender_account_id')
+			->leftJoin('mobile_users', 'accounts.id', '=', 'mobile_users.account_id')
+			->leftJoin('users', 'users.id' , '=', 'mobile_users.user_id')
+			->join('transaction_nodes as tn', 'tn.transaction_id', '=', 'transactions.id')
+			->leftJoin('account_company_orders as aco', 'aco.id', '=', 'tn.account_company_order_id')
+			->leftJoin('company_orders as co', 'co.id', '=', 'aco.company_order_id')
+			->leftJoin('services as s', 's.id', '=', 'co.service_id')
+			->where('transactions.reciever_account_id', $account_id)
+			->select('s.name as service', 'tn.amount', 'transactions.created_at', 'users.phone')
+			->get();
+
+		return $this->makeResponse(200, true, ['data' => $data]);
 	}
 
 }

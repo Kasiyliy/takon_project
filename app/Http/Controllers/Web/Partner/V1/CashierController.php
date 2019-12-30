@@ -58,9 +58,9 @@ class CashierController extends WebBaseController
             $user = new User();
             $user->username = $request->username;
             $user->phone_number = $user->username;
-            $user->password = bcrypt($request->password);
+            $user->password = md5($request->password);
             $user->role_id = Role::ROLE_CASHIER_ID;
-
+			$user->token = ApiUtil::generateToken();
             $user->save();
 
             $account = new Account();

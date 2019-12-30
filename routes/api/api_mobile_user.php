@@ -9,6 +9,7 @@
 Route::group(['namespace' => 'V1', 'prefix' => 'V1'], function () {
 
 	Route::post('/auth/login', ['as' => 'auth.login', 'uses' => 'ApiController@logIn']);
+	Route::post('/cashier-login', ['as' => 'cashier.login', 'uses' => 'ApiController@loginCashier']);
 	Route::post('/auth/check-code', ['as' => 'check.code', 'uses' => 'ApiController@checkCode']);
 	Route::group(['middleware' => 'token'], function () {
 
@@ -23,6 +24,7 @@ Route::group(['namespace' => 'V1', 'prefix' => 'V1'], function () {
 		Route::post('/generate-qr', ['as' => 'generateQr', 'uses' => 'ApiController@generateQr']);
 		Route::post('/send-friend', ['as' => 'sendFriend', 'uses' => 'ApiController@sendFriend']);
 		Route::post('/get-history', ['as' => 'getHistory', 'uses' => 'ApiController@getHistory']);
+		Route::post('/get-archive', ['as' => 'getCashiersHistory', 'uses' => 'ApiController@getCashiersHistory']);
 
 	});
 });
