@@ -405,6 +405,9 @@ class ApiController extends ApiBaseController
 		$user = User::where('username', $request->login)
 			->where('password', md5($request->password))
 			->first();
+		if(!$user){
+			return $this->makeResponse(401, false, []);
+		}
 		return $this->makeResponse(200, true, ['token' => $user->token]);
 	}
 

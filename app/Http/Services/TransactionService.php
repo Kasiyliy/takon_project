@@ -104,7 +104,7 @@ class TransactionService
 	}
 
 
-	public static function Pay(AccountCompanyOrder $accountCompanyOrder, Cashier $cashier, Integer $amount){
+	public static function Pay(AccountCompanyOrder $accountCompanyOrder, Cashier $cashier, $amount){
 		try{
 			DB::beginTransaction();
 			$transaction = new Transaction();
