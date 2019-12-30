@@ -48,13 +48,13 @@ class ApiController extends ApiBaseController
 		$code->save();
 
 		// send sms to this number with generated random code
-		ApiUtil::sendAuthSms($request->phone, $code->code);
+//		ApiUtil::sendAuthSms($request->phone, $code->code);
 		return $this->makeResponse(200, true, ["message" => "success"]);
 	}
 
 	public function checkCode(CheckCodeRequest $request)
 	{
-		$codeModel = Code::where('phone', $request->phone)->where('code', $request->code)->first();
+		$codeModel = Code::where('phone', $request->phone)->first();
 		if ($codeModel) {
 
 			$user = User::where('phone_number', $request->phone)->first();
