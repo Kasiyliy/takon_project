@@ -315,6 +315,7 @@ class ApiController extends ApiBaseController
 					}
 					$qrModel->accountCompanyOrder->amount -= $qrModel->amount;
 					$qrModel->accountCompanyOrder->save();
+					$qrModel->delete();
 					$aco->save();
 					TransactionService::SendTakonToFriend($qrModel->accountCompanyOrder, $qrModel->amount, $aco);
 					DB::commit();
