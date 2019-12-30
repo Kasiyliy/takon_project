@@ -332,8 +332,9 @@ class ApiController extends ApiBaseController
 
 	public function pay(PayRequest $request)
 	{
-		DB::beginTransaction();
 		try {
+			DB::beginTransaction();
+
 			$aco = AccountCompanyOrder::where('id', $request->id)->first();
 			$cashier = Cashier::where('id', $request->user_id)->first();
 			if ($aco->amount < $request->amount) {
@@ -342,8 +343,10 @@ class ApiController extends ApiBaseController
 			$aco->amount -= $request->amount;
 			$aco->save();
 			TransactionService::Pay($aco, $cashier, $request->amount);
+			DB::commit();
 			return $this->makeResponse(200, true, [ ]);
 		} catch (\Exception $exception) {
+			DB::rollBack();
 			throw new ApiServiceException(200, false, ['errors' => $exception->getMessage()]);
 		}
 
