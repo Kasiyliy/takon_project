@@ -427,7 +427,7 @@ class ApiController extends ApiBaseController
 			->leftJoin('account_company_orders as aco', 'aco.id', '=', 'tn.account_company_order_id')
 			->leftJoin('company_orders as co', 'co.id', '=', 'aco.company_order_id')
 			->leftJoin('services as s', 's.id', '=', 'co.service_id')
-			->where('transactions.reciever_account_id', $account_id)
+			->where('transactions.receiver_account_id', $account_id)
 			->select('s.name as service', 'tn.amount', 'transactions.created_at', 'users.phone_number')
 			->get();
 
