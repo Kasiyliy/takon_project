@@ -341,6 +341,7 @@ class ApiController extends ApiBaseController
 			$aco->amount -= $request->amount;
 			$aco->save();
 			TransactionService::Pay($aco, $cashier, $request->amount);
+			return $this->makeResponse(200, true, [ ]);
 		} catch (\Exception $exception) {
 			throw new ApiServiceException(200, false, ['errors' => $exception->getMessage()]);
 		}
