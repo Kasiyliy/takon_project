@@ -418,7 +418,7 @@ class ApiController extends ApiBaseController
 	}
 
 	public function getCashiersHistory(){
-		$account_id = $this->getCurrentUser()->mobileUser->account_id;
+		$account_id = $this->getCurrentUser()->cashier->account_id;
 		$data = DB::table('transactions')
 			->leftJoin('accounts', 'accounts.id', '=', 'transactions.sender_account_id')
 			->leftJoin('mobile_users', 'accounts.id', '=', 'mobile_users.account_id')
