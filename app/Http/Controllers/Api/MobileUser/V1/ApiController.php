@@ -375,6 +375,7 @@ class ApiController extends ApiBaseController
 			->orWhere('transactions.sender_account_id', $account_id)
 			->select('services.name as service', 'c_reciever.name as company_reciever', 'c_sender.name as company_sender', 'u_reviever.phone_number as user_reciever',
 				'u_sender.phone_number as user_sender', 'partners.name as company', 'tn.amount', 'transactions.created_at')
+			->orderBy('transactions.created_at', 'ASC')
 			->get();
 
 		$result = [];
